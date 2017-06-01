@@ -11,4 +11,7 @@ NOTE 3
 I only made a 'base case' based on WikidataAPI. AnchorText should still be implemented
 
 NOTE 4
-The function formulate_answer() only formulates an answer based on the 'what is X of Y' and 'list' cases.
+The function formulate_answer() only formulates an answer based on the 'what is X of Y' and 'list' cases. The others have to be implemented
+
+IMPORTANT NOTE
+The anchorText in the /data/ folder is NOT real. Since gitHub doesn't accept files +25MB
