@@ -11,8 +11,7 @@ class answer:
 	information - If you make class variables in __init__,
 	you should put 'self.' in front of it. With referring to it, do the exact same!
 	'''
-	def __init__(self, question, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
-		self.question = question
+	def __init__(self, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
 		self.debug_modus = debug_modus
 		#this is how another class can be used
 		self.wikidataAPI = wikidataAPI()
