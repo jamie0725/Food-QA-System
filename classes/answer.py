@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-import spacy
-
 #this is how you import a class from a file
 from classes.wikidataAPI import wikidataAPI
 from classes.anchorText import anchorText
@@ -13,18 +11,13 @@ class answer:
 	information - If you make class variables in __init__,
 	you should put 'self.' in front of it. With referring to it, do the exact same!
 	'''
-	def __init__(self, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
+	def __init__(self, question, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
+		self.question = question
 		self.debug_modus = debug_modus
-
 		#this is how another class can be used
 		self.wikidataAPI = wikidataAPI()
 		self.anchorText = anchorText()
 	
-	def set_question(self, question):
-		self.question = question
-	def get_question(self):
-        	return self.question
-
 	'''
 	The first argument of functions that are in a class use self as input. 
 	However, this is only with defining a function, not with calling a function.
