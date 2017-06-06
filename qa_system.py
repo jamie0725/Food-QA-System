@@ -21,8 +21,8 @@ try:
 		answer = answer(asked_question, debug_modus = True)
 		question_type = question.select_question_type()
 		if question_type == 'value': #list or simple questions
-			entity, property = question.analyze_question() 
-			answer.formulate_answer(entity, property)
+			entity, property = question.analyze_value_question() 
+			#answer.formulate_answer(entity, property)
 		elif question_type == 'count': #how much questions
 			pass
 		elif question_type == 'boolean': #yes no questions
