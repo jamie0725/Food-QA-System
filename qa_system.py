@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import spacy
 
 from classes.question import question
 from classes.answer import answer
@@ -11,14 +10,16 @@ from functions.print import ask_new_question
 example_questions()
 ask_new_question()
 
-nlp = spacy.load('en_default')
 
+question = question(debug_modus = True)
+answer = answer(debug_modus = True)
 #make class variables
 
 try:
 	for asked_question in sys.stdin: #every question on a new line
-		question = question(nlp, asked_question, debug_modus = True)
-		answer = answer(asked_question, debug_modus = True)
+		question.asked_question = asked_question
+		answer.asked_question = asked_question
+
 		question_type = question.select_question_type()
 		if question_type == 'value': #list or simple questions
 			entity, property = question.analyze_value_question() 
