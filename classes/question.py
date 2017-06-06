@@ -24,7 +24,7 @@ class question:
 	However, this is only with defining a function, not with calling a function.
 	'''
 
-	def analyze_question(self): #input = question on a line
+	def analyze_value_question(self): #input = question on a line
 		processed_question = self.nlp(self.asked_question)
 
 		if self.debug_modus == True:
@@ -49,4 +49,8 @@ class question:
 			return 'unknown', 'unknown' #or something else
 
 	
-	
+	def analyze_boolean_question(self):
+		pass
+
+	def analyze_count_question(self):
+		pass
