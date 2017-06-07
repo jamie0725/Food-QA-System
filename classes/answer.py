@@ -33,9 +33,9 @@ class answer:
 		
 		#if no answer is found at all
 		if status == False:
-			print("no answer found for Question: {}. ".format(self.question))
+			print("no answer found for Question: {}. ".format(self.asked_question))
 		else:
-			print_question(self.question)
+			print_question(self.asked_question)
 			print_answer(answer)
 			
 	#TODO expand the function to get the right answer(s)
