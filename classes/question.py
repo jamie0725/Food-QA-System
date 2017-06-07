@@ -25,7 +25,6 @@ class question:
 
 	def analyze_value_question(self): #input = question on a line
 		occur_list, subject_counter, object_counter = self.basic_analysis()
-		print(occur_list)
 		subject = self.get_subject(occur_list, subject_counter)
 		object = self.get_object(occur_list, object_counter)
 
