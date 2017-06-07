@@ -1,0 +1,71 @@
+TEST QUESTIONS
+
+NR 1 'VALUE'			
+What is the country of origin of cookies?					
+What are the ingredients of a gin and tonic?
+When was the inception of Dr Pepper?
+Who is the founder of the KFC?
+In what industry is the KFC?
+In which year was Coca Cola created?
+What are the ingredients of Roquefort cheese?
+What product does McDonalds sell?
+Which colors does an apple have?
+Where is the headquarters of Tony's Chocolonely?
+What are the ingredients of Pingado?
+What is the origin of Café con leche?
+What's the country of origin of shawarma?
+What country does Tomato Ketchup come from?
+Where is Theobroma cacao the source of?
+Where is the headquarters located of Kentucky Fried Chicken?
+Who owns Lay's chips?
+Where does pasta come from?
+Which material is used for producing dog food?
+List the main ingredients of bread
+What is the country of origin of apple pie?
+What is the E number of citric acid?
+Who founded McDonalds?
+Name the mass of a baguette
+What color grapes are there?
+Give a list of Indian Food
+How many employees has the Burger King? *** THIS CASE IS STRANGE 
+When is the world food day?
+Where do 'stroopwafels' come from?
+Where do hot dogs come from?
+Which drug is used for treatment against food allergy?
+Where is ceviche originally from?
+What is Rebujito made of?
+What meat is the main ingredient in Ossobuco?
+How many calories are there in a BK Whopper? *** THIS CASE IS STRANGE 
+Where is beer finally assembled?
+How many michelin stars does Osteria Francescana have?
+Who was the presenter of Heel Holland Bakt in 2016?
+
+NR 2 'DESCRIPTION'
+What are Cup noodles?
+What is wheat flour?
+What is Naan?
+What is a zucchini?
+What is bread?
+What is raw food?
+what is a vegetable?
+What is meat?
+What is cooking?
+
+
+NR 3 'BOOLEAN'
+Does jam contain sugar?
+Is barbecuing considered a cooking technique?
+Is goat milk healthy?
+Does soylent have an official website?
+Does a hamburger contain meat?
+Does water contain sugar?
+Does rice contain protein?
+Does the Japanese dish sushi contain steamed rice?
+Does chocolate contain sugar?
+Is a raisin a dried fruit?
+
+NR 4 'COUNT'
+How many ingredients does ratatouille have?
+Of how many classes is rice a subclass?
+How many ingredients does ratatouille have?
+How many episodes does MarsterChef have?
