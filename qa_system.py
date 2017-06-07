@@ -22,14 +22,14 @@ try:
 
 		question_type = question.select_question_type()
 		if question_type == 'value': #list or simple questions
-			entity, property = question.analyze_value_question() 
-			#answer.formulate_answer(entity[1], property[0])
+			entity_strings, property_strings = question.analyze_value_question() 
+			#answer.formulate_answer(entity_strings, property_strings)
 		elif question_type == 'boolean': #yes no questions
-			entity, property = question.analyze_boolean_question() 
+			entity_strings, property_strings = question.analyze_boolean_question() 
 		elif question_type == 'count': #how much questions
-			entity, property = question.analyze_count_question() 
+			entity_strings, property_strings = question.analyze_count_question() 
 		elif question_type == 'description': #add other options
-			entity = question.analyze_description_question() 
+			entity_strings = question.analyze_description_question() 
 		
 		ask_new_question()
 except KeyboardInterrupt: #ctrl+c won't return an error
