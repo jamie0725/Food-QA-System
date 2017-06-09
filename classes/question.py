@@ -117,7 +117,7 @@ class question:
         
 		return question_type
 
-	def analyze_value_question(self): #input = question on a line
+		def analyze_value_question(self): #input = question on a line
 		occur_list, subject_counter, object_counter = self.basic_analysis()
 		subject = self.get_subject(occur_list, subject_counter)
 		object = self.get_object(occur_list, object_counter)
@@ -145,9 +145,8 @@ class question:
 	
 		if self.debug_modus == True:
 			print(occur_list)
-			print('Subject = {}, Object = {}'.format(subject, object))
-        
-		return question_type
+			print('Subject = {}, Object = {}'.format(subject, object))  
+       
 		try:
 			return object, subject #list, list
 		except: #if the script couldn't find a subject or object
@@ -221,14 +220,15 @@ class question:
 		if subject_status == False:
 			subject, subject_status = self.get_value(occur_list, subject, subject_status, ['aux'])
 			subject, subject_status = self.get_value(occur_list, subject, subject_status, ['neg'])
+			subject, subject_status = self.get_value(occur_list, subject, subject_status, ['advmod'])
 
 		if subject_status == False:
 			if subject_counter == 0:
 				subject, subject_status = self.get_value(occur_list, subject, subject_status, ['pobj'])
 				subject, subject_status = self.get_value(occur_list, subject, subject_status, ['dobj'])
 
-		if subject_status == False:
-			subject, subject_status = self.get_value(occur_list, subject, subject_status, ['ROOT'])	
+		#if subject_status == False:
+		subject, subject_status = self.get_value(occur_list, subject, subject_status, ['ROOT'])	
 
 		return subject
 
@@ -238,19 +238,22 @@ class question:
 		object, object_status = self.get_value(occur_list, object, object_status, ['pobj'])
 		object, object_status = self.get_value(occur_list, object, object_status, ['dobj'])
 		object, object_status = self.get_value(occur_list, object, object_status, ['pobj||prep'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['poss'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['aposs'])
 		object, object_status = self.get_value(occur_list, object, object_status, ['oprd'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['advmod'])
+		#if object_status == False:
+		object, object_status = self.get_value(occur_list, object, object_status, ['pcomp'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['acomp'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['acl'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['amod'])
 		object, object_status = self.get_value(occur_list, object, object_status, ['attr'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['compound'])
 		
 		if object_status == False:
-			object, object_status = self.get_value(occur_list, object, object_status, ['pcomp'])
-			object, object_status = self.get_value(occur_list, object, object_status, ['acomp'])
-			object, object_status = self.get_value(occur_list, object, object_status, ['acl'])
-			object, object_status = self.get_value(occur_list, object, object_status, ['amod'])
-
-		if object_status == False:
-			object, object_status = self.get_value(occur_list, object, object_status, ['advmod'])
 			object, object_status = self.get_value(occur_list, object, object_status, ['nsubj'])
-			object, object_status = self.get_value(occur_list, object, object_status, ['compound'])
+		
+		
 
 		return object
 
@@ -294,7 +297,7 @@ class question:
 		return value, status	
 
 	def preparation_deps(self): #prep alleen tussen 2 obj en dobj
-		return ['compound', 'amod', 'poss', 'case']
+		return ['compound', 'amod', 'poss', 'case', 'punct', 'nsubj', 'neg']
 	def conjunction_deps(self): #prep alleen tussen 2 obj en dobj
 		return ['prep', 'cc', 'case']
 	def conjuncted_deps(self):
