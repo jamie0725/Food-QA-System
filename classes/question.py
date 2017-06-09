@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import spacy
+import en_core_web_md
 from collections import OrderedDict
 
 from functions.base import format_string
@@ -13,7 +14,7 @@ class question:
 	'''
 	def __init__(self, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
 		
-		self.nlp = spacy.load('en_default')		
+		self.nlp = nlp = en_core_web_md.load()		
 		self.debug_modus = debug_modus
 
 	def select_question_type(self):
