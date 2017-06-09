@@ -17,13 +17,6 @@ class question:
 		self.nlp = nlp = en_core_web_md.load()		
 		self.debug_modus = debug_modus
 
-	def select_question_type(self):
-		#check regex!
-
-		#TODO @Vincent's part! work with self.question (the input question)
-		question_type = 'value' #just to continue, #value/description/boolean
-		return question_type
-
 	def analyze_value_question(self): #input = question on a line
 		occur_list, subject_counter, object_counter = self.basic_analysis()
 		subject = self.get_subject(occur_list, subject_counter)
