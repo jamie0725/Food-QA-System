@@ -33,12 +33,13 @@ class question:
 		object = list(OrderedDict((x, True) for x in object).keys())
 	
 		if self.debug_modus == True:
+			print(occur_list)
 			print('Subject = {}, Object = {}'.format(subject, object))
 
 		try:
 			return object, subject #list, list
 		except: #if the script couldn't find a subject or object
-			return 'unknown', 'unknown' #or something else		
+			return [], [] #or something else		
 
 	def analyze_boolean_question(self):
 		occur_list, subject_counter, object_counter = self.basic_analysis()
@@ -50,12 +51,13 @@ class question:
 		object = list(OrderedDict((x, True) for x in object).keys())
 	
 		if self.debug_modus == True:
+			print(occur_list)
 			print('Subject = {}, Object = {}'.format(subject, object))
 
 		try:
 			return object, subject #list, list
 		except: #if the script couldn't find a subject or object
-			return 'unknown', 'unknown' #or something else	
+			return [], [] #or something else	
 	
 	def analyze_count_question(self):
 		occur_list, subject_counter, object_counter = self.basic_analysis()
@@ -67,12 +69,13 @@ class question:
 		object = list(OrderedDict((x, True) for x in object).keys())
 	
 		if self.debug_modus == True:
+			print(occur_list)
 			print('Subject = {}, Object = {}'.format(subject, object))
 
 		try:
 			return object, subject #list, list
 		except: #if the script couldn't find a subject or object
-			return 'unknown', 'unknown' #or something else		
+			return [], [] #or something else		
 
 	def analyze_description_question(self):
 		occur_list, subject_counter, object_counter = self.basic_analysis()
@@ -82,12 +85,13 @@ class question:
 		subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
 	
 		if self.debug_modus == True:
+			print(occur_list)
 			print('Subject = {}'.format(subject))
 
 		try:
 			return subject #list, list
 		except: #if the script couldn't find a subject or object
-			return 'unknown' #or something else		
+			return [] #or something else		
 
 	def basic_analysis(self):
 		processed_question = self.nlp(self.asked_question)
@@ -119,7 +123,6 @@ class question:
 		subject_status = False
 		subject, subject_status = self.get_value(occur_list, subject, subject_status, ['nsubj'])
 		subject, subject_status = self.get_value(occur_list, subject, subject_status, ['nsubjpass'])
-		#if subject_status == False:
 		subject, subject_status = self.get_value(occur_list, subject, subject_status, ['attr'])
 		if subject_status == False:
 			subject, subject_status = self.get_value(occur_list, subject, subject_status, ['aux'])
@@ -142,12 +145,13 @@ class question:
 		object, object_status = self.get_value(occur_list, object, object_status, ['dobj'])
 		object, object_status = self.get_value(occur_list, object, object_status, ['pobj||prep'])
 		object, object_status = self.get_value(occur_list, object, object_status, ['oprd'])
+		object, object_status = self.get_value(occur_list, object, object_status, ['attr'])
 		
 		if object_status == False:
-			object, object_status = self.get_value(occur_list, object, object_status, ['attr'])
 			object, object_status = self.get_value(occur_list, object, object_status, ['pcomp'])
 			object, object_status = self.get_value(occur_list, object, object_status, ['acomp'])
 			object, object_status = self.get_value(occur_list, object, object_status, ['acl'])
+			object, object_status = self.get_value(occur_list, object, object_status, ['amod'])
 
 		if object_status == False:
 			object, object_status = self.get_value(occur_list, object, object_status, ['advmod'])
@@ -203,3 +207,5 @@ class question:
 		return ['pobj', 'conj', 'attr']
 	def ignore_tag_list(self):
 		return ['DT', 'WP', 'WDT']
+		
+		
