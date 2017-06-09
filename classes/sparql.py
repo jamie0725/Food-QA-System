@@ -15,7 +15,7 @@ class sparql:
 				if (questionType == "BOOLEAN1"):
 						for entity_ID2 in entities:
 							queries.append(createQuery(self, questionType, [entity_ID, null, entity_ID2]))
-				else if (questionType == "DESCRIPTION"||questionType == "LIST"):
+				else if (questionType == "DESCRIPTION" or questionType == "LIST"):
 					queries.append(createQuery(self, questionType, [entity_ID]))
 				else:
 					for property_ID in properties:
