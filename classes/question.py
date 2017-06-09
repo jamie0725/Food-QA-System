@@ -17,6 +17,56 @@ class question:
 		self.nlp = nlp = en_core_web_md.load()		
 		self.debug_modus = debug_modus
 
+	def select_question_type(self):
+		#check regex!
+
+		#TODO @Vincent's part! work with self.question (the input question) append add at the end of a list
+		#regex (question) ->
+		#VALUE (what is x of y - 1 entity 1 property)
+		#  where
+		#  who
+		#  when 
+		#  what
+		#  which
+		#    does not contain are
+		#DESCRIPTION (wants a desription as answer- 1 entity)
+
+		#COUNT (expects a number as answer - has entity and property)
+		#  starts with How many
+		#BOOLEAN1 (2 entities)
+		#BOOLEAN2(2 times an entity+ a property) 
+
+		#  Starts with is
+		#LIST (special case of value (list american presidents) where only 1 entity)
+		#  starts with What are
+
+		#  still need description
+		#  difference boolean 1,2
+
+
+		if(re.search(r'(How\smany)^', question))
+			question_type.append('COUNT');
+		if(re.search(r'^(Is|Are)', question))
+		      	question_type.append('BOOLEAN');
+		if(re.match(r'are', question))
+			question_type.append('LIST');
+		else if(re.match(r'where|who|when|what|which', question, re.IGNORECASE))
+		      	question_type.append('VALUE');
+
+		if(len(question_type) != 5)
+		     	if(question_type.count('VALUE') == 0)
+				question_type.append('VALUE');
+		      	if(question_type.count('COUNT') == 0)
+				question_type.append('COUNT');
+			if(question_type.count('BOOLEAN') == 0)
+				question_type.count('BOOLEAN');
+		      	if(question_type.count('LIST') == 0)
+				question_type.append('LIST');
+		      	if(question_type.count('DESCRIPTION') == 0)
+				question_type.count('DESCRIPTION');
+        
+		return question_type
+
 	def analyze_value_question(self): #input = question on a line
 		occur_list, subject_counter, object_counter = self.basic_analysis()
 		subject = self.get_subject(occur_list, subject_counter)
@@ -46,7 +96,56 @@ class question:
 		if self.debug_modus == True:
 			print(occur_list)
 			print('Subject = {}, Object = {}'.format(subject, object))
+		#check regex!
+    
+		#TODO @Vincent's part! work with self.question (the input question) append add at the end of a list
+    #regex (question) ->
+    
+    #VALUE (what is x of y - 1 entity 1 property)
+    #  where
+    #  who
+    #  when 
+    #  what
+    #  which
+    #    does not contain are
+    #DESCRIPTION (wants a desription as answer- 1 entity)
+      
+    #COUNT (expects a number as answer - has entity and property)
+    #  starts with How many
+      
+    #BOOLEAN1 (2 entities)
+    #BOOLEAN2(2 times an entity+ a property) 
+    
+    #  Starts with is
+    #LIST (special case of value (list american presidents) where only 1 entity)
+    #  starts with What are
+      
+    #  still need description
+    #  difference boolean 1,2
+    
 
+    if(re.search(r'(How\smany)^', question))
+      question_type.append('COUNT');
+    if(re.search(r'^(Is|Are)', question))
+      question_type.append('BOOLEAN');
+    if(re.match(r'are', question))
+      question_type.append('LIST');
+    else if(re.match(r'where|who|when|what|which', question, re.IGNORECASE))
+      question_type.append('VALUE');
+    
+    if(len(question_type) != 5)
+      if(question_type.count('VALUE') == 0)
+        question_type.append('VALUE');
+      if(question_type.count('COUNT') == 0)
+        question_type.append('COUNT');
+      if(question_type.count('BOOLEAN') == 0)
+        question_type.count('BOOLEAN');
+      if(question_type.count('LIST') == 0)
+        question_type.append('LIST');
+      if(question_type.count('DESCRIPTION') == 0)
+        question_type.count('DESCRIPTION');
+        
+		return question_type
 		try:
 			return object, subject #list, list
 		except: #if the script couldn't find a subject or object
