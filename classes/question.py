@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import spacy
 import en_core_web_md
+import re
 from collections import OrderedDict
 
 from functions.base import format_string
@@ -94,25 +95,25 @@ class question:
 		#  difference boolean 1,2
 
 
-		if(re.search(r'(How\smany)^', question))
+		if re.search(r'^(How\smany)', question):
 			question_type.append('COUNT');
-		if(re.search(r'^(Is|Are)', question))
-		      	question_type.append('BOOLEAN');
-		if(re.match(r'are', question))
+		if re.search(r'^(Is|Are)', question):
+			question_type.append('BOOLEAN');
+		if re.match(r'are', question):
 			question_type.append('LIST');
-		else if(re.match(r'where|who|when|what|which', question, re.IGNORECASE))
-		      	question_type.append('VALUE');
+		elif re.match(r'where|who|when|what|which', question, re.IGNORECASE):
+			question_type.append('VALUE');
 
-		if(len(question_type) != 5)
-		     	if(question_type.count('VALUE') == 0)
+		if len(question_type) != 5:
+			if question_type.count('VALUE') == 0:
 				question_type.append('VALUE');
-		      	if(question_type.count('COUNT') == 0)
+			if question_type.count('COUNT') == 0:
 				question_type.append('COUNT');
-			if(question_type.count('BOOLEAN') == 0)
+			if question_type.count('BOOLEAN') == 0:
 				question_type.count('BOOLEAN');
-		      	if(question_type.count('LIST') == 0)
+			if question_type.count('LIST') == 0:
 				question_type.append('LIST');
-		      	if(question_type.count('DESCRIPTION') == 0)
+			if question_type.count('DESCRIPTION') == 0:
 				question_type.count('DESCRIPTION');
         
 		return question_type
