@@ -1,26 +1,13 @@
-# this is how you import a class from a file
-from classes.wikidataAPI import wikidataAPI
-from classes.anchorText import anchorText
+import sparql
 
-from functions.print import question as print_question
-from functions.print import answer as print_answer
+class Answer:
+    def __init__(self, question, count, nlp):
+        self.question = question
+        self.count = count
 
-class answer:
-    '''
-    information - If you make class variables in __init__,
-    you should put 'self.' in front of it. With referring to it, do the exact same!
-    '''
-    def __init__(self, debug_modus = False): # input = debug_modus, so we can debug the functions if necessary
-        self.debug_modus = debug_modus
-        # this is how another class can be used
-        self.wikidataAPI = wikidataAPI()
-        self.anchorText = anchorText()
-    
-    '''
-    The first argument of functions that are in a class use self as input. 
-    However, this is only with defining a function, not with calling a function.
-    '''
-    def formulate_answer(self, entity, property): # input = entity, property
+        self.answers = []
+
+    def formulate_answer(self, entity, property): 
         # base case, calling to get_answer of this class should be done with self.get_answer()
         answer, status = self.get_answer(entity, property) # return is something like answer (string) and status (boolean).
 
@@ -62,18 +49,6 @@ class answer:
             if self.debug_modus == True:
                 print('wikidataAPI - answer = {}'.format(answer))
 
-        # TODO anchor text!
-        '''
-        if status == False: # try anchorText if no answer is found
-            entity_IDs = self.anchorText.get_entity_IDs(entity)
-            if self.debug_modus == True:
-                print('anchorText - entity_IDs = {}'.format(entity_IDs))
-            if len(entity_IDs) > 0: # try to find an answer in wikidataAPI
-                answer, status = self.wikidataAPI.get_answer(entity_IDs, property_IDs)
-                if self.debug_modus == True:
-                    print('anchorText - answer = {}'.format(answer))
-        '''
-
-        return answer, status
-
-
+    def print(self):
+        print(self.count, "\t", end='')
+        print("\t".join(self.answers))

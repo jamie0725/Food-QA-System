@@ -5,11 +5,13 @@ QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
                     'BOOLEAN', 'DESCRIPTION', 'LIST')
 
 class Question:
-    def __init__(self, question):
+    def __init__(self, question, nlp):
         self.question = question
-        self.possible_entities = set()
-        self.possible_properties = set()
-        self.types = set()
+        self.nlp = nlp
+
+        self.possible_entities = []
+        self.possible_properties = []
+        self.types = []
 
     def determine_question_type(self):
         self.types = [t for t in QuestionType]
