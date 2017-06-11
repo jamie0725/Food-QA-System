@@ -97,7 +97,7 @@ class AskQuery(SparqlQuery):  # is ham a food
     def __init__(self, entity_ID, entity_ID2):
         self.query = """
         ASK {
-            wd:"""entity_URL""" ?property wd:"""entity_URL2""" .
+            wd:"""+entity_URL+""" ?property wd:"""+entity_URL2+""" .
         }"""
 
     def _val(self):
@@ -109,7 +109,7 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
     def __init__(self, entity_ID, property_URL, entity_ID2):
         self.query = """
         ASK {
-            wd:"""entity_URL""" wdt:"""property_URL""" wd:"""entity_URL2""" .
+            wd:"""+entity_URL+""" wdt:"""+property_URL+""" wd:"""+entity_URL2+""" .
         }"""
 
     def _val(self):
