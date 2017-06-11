@@ -68,5 +68,13 @@ class Answer:
                 if answer:
                     self.answers = answer
                     return
+        elif question_type == QuestionType.COUNT:
+            for entity_id, property_id in zip(self.obj_entity_IDs,
+                    self.subj_property_IDs)
+                query = sparql.CountQuery(entity_id, property_id)
+                answer = query.get()
+                if answer: # if the answer is 0, it's probably also incorrect
+                    self.answes = answer
+                    return
         else:
             raise NotImplementedError
