@@ -68,6 +68,9 @@ def get_entity_IDs_by_URL(entity_URLs):
 
 
 def fire_query(query):
-    return requests.get(SPARL_ENDPOINT_URL,
+    try:
+        return requests.get(SPARL_ENDPOINT_URL,
                         params={'query': query, 'format': 'json'
                                 }).json()
+    except:
+        return []

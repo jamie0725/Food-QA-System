@@ -3,6 +3,7 @@ import wikidata
 import base
 from question import QuestionType
 import logging
+import itertools
 
 class Answer:
 
@@ -55,21 +56,21 @@ class Answer:
 
     def answer_as(self, question_type):
         if question_type == QuestionType.VALUE:
-            for entity_id, property_id in zip(self.obj_entity_IDs, self.subj_property_IDs):
+            for entity_id, property_id in itertools.product(self.obj_entity_IDs, self.subj_property_IDs):
                 query = sparql.ValueQuery(entity_id, property_id)
                 answer = query.get()
                 if answer:
                     self.answers = answer
                     return
         elif question_type == QuestionType.DESCRIPTION:
-            for entity_id in zip(self.subj_entity_IDs, self.obj_entity_IDs):
+            for entity_id in itertools.product(self.subj_entity_IDs, self.obj_entity_IDs):
                 query = sparql.DescriptionQuery(entity_id)
                 answer = query.get()
                 if answer:
                     self.answers = answer
                     return
         elif question_type == QuestionType.COUNT:
-            for entity_id, property_id in zip(self.obj_entity_IDs, self.subj_property_IDs):
+            for entity_id, property_id in itertools.product(self.obj_entity_IDs, self.subj_property_IDs):
                 query = sparql.CountQuery(entity_id, property_id)
                 answer = query.get()
                 if answer: # if the answer is 0, it's probably also incorrect

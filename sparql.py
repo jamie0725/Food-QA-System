@@ -1,5 +1,6 @@
 from question import QuestionType 
 import wikidata
+import logging
 
 class SparqlQuery:
 
@@ -12,9 +13,13 @@ class SparqlQuery:
         return self.result
 
     def get(self):
-        if (not self.result):
-            self.result = wikidata.fire_query(self.query)
-        return self._val()
+        try:
+            if (not self.result):
+                self.result = wikidata.fire_query(self.query)
+                logging.debug("QUERY:\n{}\nRESULT:\n{}\n".format(self.query, self.result))
+            return self._val()
+        except:
+            return None
 
 
 class ValueQuery(SparqlQuery):

@@ -30,7 +30,7 @@ class Question:
         objects = self.get_object(occur_list, object_counter)
 
         logging.info("occur_list: {}".format(occur_list))
-        logging.info('subjects = {}, objects = {}'.format(subjects, objects))
+        logging.info('subjects = {}\nobjects = {}'.format(subjects, objects))
 
         self.objects = base.dedup(objects)
         self.subjects = base.dedup(subjects)
