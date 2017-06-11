@@ -1,8 +1,8 @@
 import spacy
 from enum import Enum
 
-QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
-                   'BOOLEAN', 'DESCRIPTION', 'LIST')
+QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
+
 
 # ALL OTHERS: analyze_value_question()  = self.subject, self.object
 # DESCRIPTION: analyze_description_question() #self.subject
