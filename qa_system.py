@@ -1,25 +1,18 @@
-#!/usr/bin/env python3
 import sys
-
-from classes.question import question
-from classes.answer import answer
-
-from functions.print import example_questions
-from functions.print import ask_new_question
-
-example_questions()
-ask_new_question()
-
-
-question = question(debug_modus = True)
-answer = answer(debug_modus = True)
-#make class variables
+import spacy
+from question import Question
+from count import Count
+from answer import Answer
+import logging
 
 try:
-	for asked_question in sys.stdin: #every question on a new line
-		question.asked_question = asked_question
-		answer.asked_question = asked_question
+    # show all logging with level >= DEBUG
+    logging.basicConfig(level=logging.DEBUG)
 
+    nlp = spacy.load('en')
+    print_count = Count()
+
+<<<<<<< HEAD
 		question_types = question.select_question_type()
 		for question_type in question_types:
 			if question_type in ['VALUE', 'LIST', 'COUNT', 'BOOLEAN']: #list or simple questions
@@ -32,3 +25,11 @@ try:
 		ask_new_question()
 except KeyboardInterrupt: #ctrl+c won't return an error
 	pass
+=======
+    for line in sys.stdin:
+        question = Question(line, nlp)
+        answer = Answer(question, print_count, nlp)
+        answer.print_it()
+except KeyboardInterrupt: # ctrl+c won't return an error
+    pass
+>>>>>>> e5a00d477fb36cd9518ce246360bb9a6020e6800

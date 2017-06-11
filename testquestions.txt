@@ -51,7 +51,6 @@ what is a vegetable?
 What is meat?
 What is cooking?
 
-
 NR 3 'BOOLEAN'
 Does jam contain sugar?
 Is barbecuing considered a cooking technique?
