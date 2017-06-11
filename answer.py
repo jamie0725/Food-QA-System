@@ -15,7 +15,7 @@ class Answer:
 
         self.answers = []
 
-    def print(self):
+    def print_it(self):
         if (not self.answer):
             self._find_answer()
         print(self.count.use(), "\t", end='')

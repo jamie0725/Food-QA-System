@@ -10,6 +10,6 @@ try:
     for line in sys.stdin:
         question = Question(line, nlp)
         answer = Answer(question, print_count, nlp)
-        answer.print()
+        answer.print_it()
 except KeyboardInterrupt: # ctrl+c won't return an error
     pass

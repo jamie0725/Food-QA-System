@@ -24,11 +24,6 @@ def get_values(entity_IDs, property_IDs):
     return answers
 
 
-def firequery(query):
-    return requests.get(SPARL_ENDPOINT_URL,
-                        params={'query': query, 'format': 'json'
-                        }).json()
-
 def get_entity_IDs(entity_name):
     entity_IDs = []
     # if the entity_name couldn't be found in english, try other langugages
@@ -67,5 +62,8 @@ def get_entity_IDs_by_URL(entity_URLs):
     entity_IDs = []
     return entity_IDs  # list
 
+
 def fire_query(query):
-    
+    return requests.get(SPARL_ENDPOINT_URL,
+                        params={'query': query, 'format': 'json'
+                                }).json()
