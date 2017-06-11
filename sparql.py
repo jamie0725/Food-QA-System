@@ -1,6 +1,6 @@
 from question import QuestionType
 
-def createAllQueries(self, questionTypes, entities, properties):
+def createAllQueries(questionTypes, entities, properties):
     queries[]
     for questionType in questionTypes:  # try out all the possible question types
         for entity_ID in entities:
@@ -25,7 +25,7 @@ def createAllQueries(self, questionTypes, entities, properties):
     # return query
     return queries
 
-def createQuery(self, questionType, queryInput):
+def createQuery(questionType, queryInput):
     #queryInput[0]=entity_ID, queryInput[1]=property_ID, queryInput[2]=entity_ID2
     if questionType == "VALUE":
         query = answer(self, queryInput[0], queryInput[1])
@@ -43,7 +43,7 @@ def createQuery(self, questionType, queryInput):
 
     return query
 
-def answer(self, entity_ID, property_ID):
+def answer(entity_ID, property_ID):
     query = '''
     SELECT ?property ?propertyLabel WHERE {
        wd:'''+entity_ID+''' wdt:'''+property_ID+'''  ?property.
@@ -53,7 +53,7 @@ def answer(self, entity_ID, property_ID):
     }'''
     return query
 
-def entity_description(self, entity_ID):
+def entity_description(entity_ID):
     query = '''
     SELECT ?descriptionLabel WHERE {
         wd:'''+entity_ID+'''  schema:description ?descriptionLabel.
@@ -61,7 +61,7 @@ def entity_description(self, entity_ID):
     }'''
     return query
 
-def entity_label(self, entity_ID):
+def entity_label(entity_ID):
     query = '''
     SELECT ?entityLabel WHERE {
         wd:'''+entity_ID+''' rdfs:label ?entityLabel.
@@ -69,21 +69,21 @@ def entity_label(self, entity_ID):
     }'''
     return query
 
-def entity_ID(self, entity_URL):
+def entity_ID(entity_URL):
     query = '''
     SELECT ?e WHERE {
         '''+page_URL+''' schema:about ?e .
     }    '''
     return query
 
-def entity_alias(self, entity_URL):
+def entity_alias(entity_URL):
     query = '''
     SELECT ?alias WHERE {
         '''+page_URL+''' skos:altLabel ?aliases .
     }    '''
     return query
 
-def ask(self, entity_URL, entity_URL2)  # is ham a food
+def ask(entity_URL, entity_URL2)  # is ham a food
     query = """
     ASK {
         wd:"""entity_URL""" ?property wd:"""entity_URL2""" .
@@ -91,7 +91,7 @@ def ask(self, entity_URL, entity_URL2)  # is ham a food
     return query
 
 # is ham a kind of food
-def ask_specific(self, entity_URL, entity_URL2, property_URL)
+def ask_specific(entity_URL, entity_URL2, property_URL)
     query = """
     ASK {
         wd:"""entity_URL""" wdt:"""property_URL""" wd:"""entity_URL2""" .
@@ -99,14 +99,14 @@ def ask_specific(self, entity_URL, entity_URL2, property_URL)
     return query
 
 # are there count questions in different ways?
-def answer_count(self, entity_ID, property_ID):
+def answer_count(entity_ID, property_ID):
     query = '''
     SELECT (count(distinct ?property) as ?count) WHERE {
        wd:'''+entity_ID+''' wdt:'''+property_ID+'''  ?property.
     }'''
     return query
 
-def answer_list(self, entity_ID):
+def answer_list(entity_ID):
     query = '''
     SELECT ?entity WHERE {
        ?entity wdt:P279|wdt:P31 entity_ID.

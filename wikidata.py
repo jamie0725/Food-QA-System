@@ -5,7 +5,7 @@ SPARL_ENDPOINT_URL = 'https://query.wikidata.org/sparql'
 WIKIDATA_API_URL = 'https://www.wikidata.org/w/api.php'
 
 
-def get_values(self, entity_IDs, property_IDs):
+def get_values(entity_IDs, property_IDs):
     answers = {}
     # This is only for the basic method (what is X of Y)
     for e_ID in entity_IDs:
@@ -24,7 +24,7 @@ def get_values(self, entity_IDs, property_IDs):
     return answers
 
 
-def get_entity_IDs(self, entity_name):
+def get_entity_IDs(entity_name):
     entity_IDs = []
     # if the entity_name couldn't be found in english, try other langugages
     for language in ['en', 'de', 'fr', 'nl', 'es', 'it']:
@@ -39,7 +39,7 @@ def get_entity_IDs(self, entity_name):
     return entity_IDs
 
 
-def get_property_IDs(self, property_name):
+def get_property_IDs(property_name):
     property_IDs = []
     params = {'action': 'wbsearchentities',
               'type': 'property',
@@ -50,7 +50,7 @@ def get_property_IDs(self, property_name):
     return property_IDs
 
 
-def get_IDs(self, params):
+def get_IDs(params):
     json = requests.get(self.wikidataAPI_URL, params).json()
     IDs = []
     for result in json['search']:
@@ -58,6 +58,6 @@ def get_IDs(self, params):
     return IDs
 
 
-def get_entity_IDs_by_URL(self, entity_URLs):
+def get_entity_IDs_by_URL(entity_URLs):
     entity_IDs = []
     return entity_IDs  # list
