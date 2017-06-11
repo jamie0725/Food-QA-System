@@ -26,7 +26,7 @@ class Question:
         logging.info("objects: {}".format(self.objects))
 
     def determine_question_type(self):
-        self.types = [QuestionType.DESCRIPTION]
+        self.types = [QuestionType.VALUE, QuestionType.DESCRIPTION]
 
     def determine_components(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
