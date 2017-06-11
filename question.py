@@ -9,8 +9,8 @@ class Question:
         self.question = question
         self.nlp = nlp
 
-        self.possible_entities = []
-        self.possible_properties = []
+        self.subjects = []
+        self.objects = []
         self.types = []
 
     def determine_question_type(self):
