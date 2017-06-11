@@ -3,7 +3,6 @@ import wikidata
 import base
 from question import QuestionType
 
-
 class Answer:
 
     def __init__(self, question, count, nlp):
@@ -16,7 +15,7 @@ class Answer:
         self.answers = []
 
     def print_it(self):
-        if (not self.answer):
+        if (not self.answers):
             self._find_answer()
         print(self.count.use(), "\t", end='')
         print("\t".join(self.answers))

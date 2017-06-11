@@ -1,4 +1,5 @@
 import sys
+import spacy
 from question import Question
 from count import Count
 from answer import Answer
