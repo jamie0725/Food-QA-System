@@ -1,8 +1,11 @@
 import spacy
-from enum import Enum
+from enum import enum
 
 QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
                     'BOOLEAN', 'DESCRIPTION', 'LIST')
+
+##	ALL OTHERS: analyze_value_question()	= self.subject, self.object
+## DESCRIPTION: analyze_description_question() #self.subject
 
 class Question:
     def __init__(self, question, nlp):
@@ -39,45 +42,11 @@ class Question:
             print('Subject = {}, Object = {}'.format(subject, object))
 
         try:
-            return object, subject #list, list
+			self.object = object
+			self.subject = subject #list, list
         except: #if the script couldn't find a subject or object
-            return [], [] #or something else        
-
-    def analyze_boolean_question(self):
-        occur_list, subject_counter, object_counter = self.basic_analysis()
-
-        subject = self.get_subject(occur_list, subject_counter)
-        object = self.get_object(occur_list, object_counter)
-
-        subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-        object = list(OrderedDict((x, True) for x in object).keys())
-    
-        if self.debug_modus == True:
-            print(occur_list)
-            print('Subject = {}, Object = {}'.format(subject, object))  
-       
-        try:
-            return object, subject #list, list
-        except: #if the script couldn't find a subject or object
-            return [], [] #or something else    
-    
-    def analyze_count_question(self):
-        occur_list, subject_counter, object_counter = self.basic_analysis()
-
-        subject = self.get_subject(occur_list, subject_counter)
-        object = self.get_object(occur_list, object_counter)
-
-        subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-        object = list(OrderedDict((x, True) for x in object).keys())
-    
-        if self.debug_modus == True:
-            print(occur_list)
-            print('Subject = {}, Object = {}'.format(subject, object))
-
-        try:
-            return object, subject #list, list
-        except: #if the script couldn't find a subject or object
-            return [], [] #or something else        
+            self.object = []
+			self.subject = []        
 
     def analyze_description_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
@@ -91,9 +60,10 @@ class Question:
             print('Subject = {}'.format(subject))
 
         try:
-            return subject #list, list
+			self.subject = subject #list, list
         except: #if the script couldn't find a subject or object
-            return [] #or something else        
+			self.subject = []        
+     
 
     def basic_analysis(self):
         processed_question = self.nlp(self.asked_question)
@@ -113,10 +83,10 @@ class Question:
             if w.dep_ in ['nsubj', 'nsubjpass']:
                 subject_counter += 1
         
-        occur_list = {  'words':    words,
-                'tags':     tags,
-                'deps':     deps,
-                'head_deps':    head_deps}
+        occur_list = {  'words':    	words,
+              		'tags':     	tags,
+                	'deps':     	deps,
+                	'head_deps':    head_deps	}
         
         return occur_list, subject_counter, object_counter
 
@@ -162,8 +132,6 @@ class Question:
         if object_status == False:
             object, object_status = self.get_value(occur_list, object, object_status, ['nsubj'])
         
-        
-
         return object
 
     def get_value(self, occur_list, value, status, sent_deps):
