@@ -1,123 +1,30 @@
-#!/usr/bin/env python3
 import spacy
-import en_core_web_md
-from collections import OrderedDict
+from enum import enum
 
-from functions.base import format_string
+QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
+                    'BOOLEAN', 'DESCRIPTION', 'LIST')
 
+class Question:
+    def __init__(self, question):
+        self.question = question
+        self.possible_entities = set()
+        self.possible_properties = set()
+        self.types = set()
 
-#class to retrieve the object and subject from a sentence
-class question:
-    '''
-    information - If you make class variables in __init__,
-    you should put 'self.' in front of it. With referring to it, do the exact same!
-    '''
-    def __init__(self, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
-        
-        self.nlp = nlp = en_core_web_md.load()      
-        self.debug_modus = debug_modus
+    def determine_question_type(self):
+        self.types = [t for t in QuestionType]
 
-        
-        #check regex!
-    
-        #TODO @Vincent's part! work with self.question (the input question) append add at the end of a list
-    #regex (question) ->
-    
-    #VALUE (what is x of y - 1 entity 1 property)
-    #  where
-    #  who
-    #  when 
-    #  what
-    #  which
-    #    does not contain are
-    #DESCRIPTION (wants a desription as answer- 1 entity)
-      
-    #COUNT (expects a number as answer - has entity and property)
-    #  starts with How many
-      
-    #BOOLEAN1 (2 entities)
-    #BOOLEAN2(2 times an entity+ a property) 
-    
-    #  Starts with is
-    #LIST (special case of value (list american presidents) where only 1 entity)
-    #  starts with What are
-      
-    #  still need description
-    #  difference boolean 1,2
-    
+    def determine_components(self):
+        if QuestionType.VALUE in self.types:
+            self.analyze_value_question()
+        if QuestionType.BOOLEAN in self.types:
+            self.analyze_boolean_question()
+        if QuestionType.COUNT in self.types:
+            self.analyze_count_question()
+        if QuestionType.DESCRIPTION in self.types:
+            self.analyze_description_question()
 
-#    if(re.search(r'(How\smany)^', question))
-#      question_type.append('COUNT');
-#    if(re.search(r'^(Is|Are)', question))
-#      question_type.append('BOOLEAN');
-#    if(re.match(r'are', question))
-#      question_type.append('LIST');
-#    else if(re.match(r'where|who|when|what|which', question, re.IGNORECASE))
-#      question_type.append('VALUE');
-#    
-#    if(len(question_type) != 5)
-#      if(question_type.count('VALUE') == 0)
-#        question_type.append('VALUE');
-#      if(question_type.count('COUNT') == 0)
-#        question_type.append('COUNT');
-#      if(question_type.count('BOOLEAN') == 0)
-#        question_type.count('BOOLEAN');
-#      if(question_type.count('LIST') == 0)
-#        question_type.append('LIST');
-#      if(question_type.count('DESCRIPTION') == 0)
-#        question_type.count('DESCRIPTION');        
-        
-    def select_question_type(self):
-        #check regex!
-
-        #TODO @Vincent's part! work with self.question (the input question) append add at the end of a list
-        #regex (question) ->
-        #VALUE (what is x of y - 1 entity 1 property)
-        #  where
-        #  who
-        #  when 
-        #  what
-        #  which
-        #    does not contain are
-        #DESCRIPTION (wants a desription as answer- 1 entity)
-
-        #COUNT (expects a number as answer - has entity and property)
-        #  starts with How many
-        #BOOLEAN1 (2 entities)
-        #BOOLEAN2(2 times an entity+ a property) 
-
-        #  Starts with is
-        #LIST (special case of value (list american presidents) where only 1 entity)
-        #  starts with What are
-
-        #  still need description
-        #  difference boolean 1,2
-
-
-        if(re.search(r'(How\smany)^', question))
-            question_type.append('COUNT');
-        if(re.search(r'^(Is|Are)', question))
-                question_type.append('BOOLEAN');
-        if(re.match(r'are', question))
-            question_type.append('LIST');
-        else if(re.match(r'where|who|when|what|which', question, re.IGNORECASE))
-                question_type.append('VALUE');
-
-        if(len(question_type) != 5)
-                if(question_type.count('VALUE') == 0)
-                question_type.append('VALUE');
-                if(question_type.count('COUNT') == 0)
-                question_type.append('COUNT');
-            if(question_type.count('BOOLEAN') == 0)
-                question_type.count('BOOLEAN');
-                if(question_type.count('LIST') == 0)
-                question_type.append('LIST');
-                if(question_type.count('DESCRIPTION') == 0)
-                question_type.count('DESCRIPTION');
-        
-        return question_type
-
-        def analyze_value_question(self): #input = question on a line
+    def analyze_value_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
         subject = self.get_subject(occur_list, subject_counter)
         object = self.get_object(occur_list, object_counter)
@@ -227,7 +134,7 @@ class question:
                 subject, subject_status = self.get_value(occur_list, subject, subject_status, ['pobj'])
                 subject, subject_status = self.get_value(occur_list, subject, subject_status, ['dobj'])
 
-        #if subject_status == False:
+        # if subject_status == False:
         subject, subject_status = self.get_value(occur_list, subject, subject_status, ['ROOT']) 
 
         return subject
@@ -242,7 +149,7 @@ class question:
         object, object_status = self.get_value(occur_list, object, object_status, ['aposs'])
         object, object_status = self.get_value(occur_list, object, object_status, ['oprd'])
         object, object_status = self.get_value(occur_list, object, object_status, ['advmod'])
-        #if object_status == False:
+        # if object_status == False:
         object, object_status = self.get_value(occur_list, object, object_status, ['pcomp'])
         object, object_status = self.get_value(occur_list, object, object_status, ['acomp'])
         object, object_status = self.get_value(occur_list, object, object_status, ['acl'])
