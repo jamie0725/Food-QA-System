@@ -11,7 +11,7 @@ class SparqlQuery:
         return self.result
 
     def get(self):
-        if (not result):
+        if (not self.result):
             self.result = wikidata.fire_query(self.query)
         return self._val()
 
@@ -19,6 +19,7 @@ class SparqlQuery:
 class ValueQuery(SparqlQuery):
 
     def __init__(self, entity_ID, property_ID):
+        super().__init__()
         self.query = '''
         SELECT ?answer ?answerLabel WHERE {{
            wd:{} wdt:{} ?answer .
@@ -28,8 +29,7 @@ class ValueQuery(SparqlQuery):
         }}'''.format(entity_ID, property_ID)
 
     def _val(self):
-        answer = []
-        for item in data["results"]["bindings"]:
+        for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
                     answer.append(item[key]["value"])
@@ -39,6 +39,7 @@ class ValueQuery(SparqlQuery):
 class DescriptionQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
+        super().__init__()
         self.query = '''
         SELECT ?answerLabel WHERE {{
             wd:{}  schema:description ?answerLabel .
@@ -52,6 +53,7 @@ class DescriptionQuery(SparqlQuery):
 class LabelQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
+        super().__init__()
         self.query = '''
         SELECT ?answerLabel WHERE {{
             wd:{} rdfs:label ?answerLabel.
@@ -65,6 +67,7 @@ class LabelQuery(SparqlQuery):
 class IDFromURLQuery(SparqlQuery):
 
     def __init__(self, page_URL):
+        super().__init__()
         self.query = '''
         SELECT ?e WHERE {{
             {} schema:about ?e .
@@ -77,6 +80,7 @@ class IDFromURLQuery(SparqlQuery):
 class AliasQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
+        super().__init__()
         self.query = '''
         SELECT ?alias WHERE {{
             {} skos:altLabel ?aliases .
@@ -89,6 +93,7 @@ class AliasQuery(SparqlQuery):
 class AskQuery(SparqlQuery):  # is ham a food
 
     def __init__(self, entity_ID, ):
+        super().__init__()
         self.query = """
         ASK {{
             wd:{} ?property wd:{} .
@@ -101,6 +106,7 @@ class AskQuery(SparqlQuery):  # is ham a food
 class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
 
     def __init__(self, entity_ID, property_ID, entity_ID2):
+        super().__init__()
         self.query = """
         ASK {{
             wd:{} wdt:{} wd:{} .
@@ -113,6 +119,7 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
 class CountQuery(SparqlQuery):  # are there count questions in different ways?
 
     def __init__(self, entity_ID, property_ID, entity_ID2):
+        super().__init__()
         self.query = '''
         SELECT (count(distinct ?property) as ?count) WHERE {{
             wd:{} wdt:{}  ?property.
@@ -125,6 +132,7 @@ class CountQuery(SparqlQuery):  # are there count questions in different ways?
 class ListQuery(SparqlQuery):
 
     def __init__(self, entity_ID, property_ID, entity_ID2):
+        super().__init__()
         self.query = '''
         SELECT ?entity WHERE {{
             ?entity wdt:P279|wdt:P31 entity_ID. ### TODO BUG

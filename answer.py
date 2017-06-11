@@ -31,9 +31,9 @@ class Answer:
                 return
 
     def _prepare_IDs(self):
-        for entity_name in self.question.subjects:
+        for entity_name in self.question.objects:
             self.entity_IDs.extend(wikidata.get_entity_IDs(entity_name))
-        for property_name in self.question.objects:
+        for property_name in self.question.subjects:
             self.property_IDs.extend(wikidata.get_property_IDs(property_name))
 
         base.dedup(self.entity_IDs)
