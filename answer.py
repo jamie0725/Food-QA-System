@@ -58,11 +58,13 @@ class Answer:
                 answer = query.get()
                 if answer:
                     self.answers.extend(answer)
+                    return
         elif question_type == QuestionType.DESCRIPTION:
             for entity_id in self.subj_entity_IDs self.obj_entity_IDs:
                 query = sparql.DescriptionQuery(entity_id)
                 answer = query.get()
                 if answer:
                     self.answers.extend(answer)
+                    return
         else:
             raise NotImplementedError

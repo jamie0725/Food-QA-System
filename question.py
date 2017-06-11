@@ -5,18 +5,14 @@ import base
 
 QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
-
-# ALL OTHERS: analyze_value_question()  = self.subjects, self.objects
-# DESCRIPTION: analyze_description_question() #self.subjects
-
-
 class Question:
     def __init__(self, question, nlp):
         self.question = question
         self.nlp = nlp
         self.subjects = []
         self.objects = []
-        self.types = []
+        self.types = [] # which question types this question should be interpreted as
+                        # ordered by likelihood of being the correct interpretation
 
         self.determine_question_type()
         self.determine_components()
