@@ -9,6 +9,11 @@ class SparqlQuery:
     def _val(self):
         """Returns the value from the obtained result.wer"""
         return self.result
+        
+    def firequery(query):
+    return requests.get('https://query.wikidata.org/sparql',
+                        params={'query': query, 'format': 'json'
+                        }).json()
 
     def get(self):
         if (not result):
