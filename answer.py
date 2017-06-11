@@ -3,7 +3,9 @@ import wikidata
 import base
 from question import QuestionType
 
+
 class Answer:
+
     def __init__(self, question, count, nlp):
         self.question = question
         self.count = count
@@ -42,8 +44,7 @@ class Answer:
             for entity_id, property_id in zip(self.entity_IDs, self.property_IDs):
                 query = sparql.ValueQuery(entity_id, property_id)
                 answer = query.get()
-
-        else
-            raise NotImplementedError 
-            
-
+                if answer:
+                    self.answers.extend()
+        else:
+            raise NotImplementedError

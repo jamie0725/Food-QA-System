@@ -61,3 +61,6 @@ def get_IDs(params):
 def get_entity_IDs_by_URL(entity_URLs):
     entity_IDs = []
     return entity_IDs  # list
+
+def fire_query(query):
+    

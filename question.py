@@ -1,14 +1,14 @@
 import spacy
-from enum import enum
+from enum import Enum
 
-QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
-                    'BOOLEAN', 'DESCRIPTION', 'LIST')
+QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
 # ALL OTHERS: analyze_value_question()  = self.subject, self.object
 # DESCRIPTION: analyze_description_question() #self.subject
 
 
 class Question:
+
     def __init__(self, question, nlp):
         self.question = question
         self.nlp = nlp
@@ -16,6 +16,9 @@ class Question:
         self.subjects = []
         self.objects = []
         self.types = []
+
+        self.determine_question_type()
+        self.determine_components()
 
     def determine_question_type(self):
         self.types = [t for t in QuestionType]
@@ -48,7 +51,7 @@ class Question:
             self.subject = subject  # list, list
         except:  # if the script couldn't find a subject or object
             self.object = []
-                self.subject = []
+            self.subject = []
 
     def analyze_description_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
@@ -88,7 +91,7 @@ class Question:
         occur_list = {'words':      words,
                       'tags':       tags,
                       'deps':       deps,
-                      'head_deps':    head_deps }
+                      'head_deps':    head_deps}
 
         return occur_list, subject_counter, object_counter
 
