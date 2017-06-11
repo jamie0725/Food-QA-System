@@ -25,7 +25,7 @@ class Question:
         logging.info("Objects: {}".format(self.objects))
 
     def determine_question_type(self):
-        self.types = [t for t in QuestionType]
+        self.types = [QuestionType.DESCRIPTION]
 
     def determine_components(self):
         if QuestionType.VALUE in self.types:

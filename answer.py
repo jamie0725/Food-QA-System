@@ -50,7 +50,7 @@ class Answer:
                 answer = query.get()
                 if answer:
                     self.answers.extend(answer)
-        else if question_type == QuestionType.DESCRIPTION:
+        elif question_type == QuestionType.DESCRIPTION:
             for entity_id, property_id in zip(self.entity_IDs, self.property_IDs):
                 query = sparql.DescriptionQuery(entity_id)
                 answer = query.get()
