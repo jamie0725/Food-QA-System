@@ -7,7 +7,7 @@ class SparqlQuery:
         self.result = []
 
     def _val(self):
-        """Returns the value from the obtained result.wer"""
+        """Returns the value from the obtained result. Needs to be implemented in child classes."""
         return self.result
 
     def get(self):
