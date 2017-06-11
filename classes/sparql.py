@@ -59,9 +59,9 @@ class LabelQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
         self.query = '''
-        SELECT ?entityLabel WHERE {
-            wd:'''+entity_ID+''' rdfs:label ?entityLabel.
-        FILTER(LANG(?entityLabel) = "en")
+        SELECT ?answerLabel WHERE {
+            wd:'''+entity_ID+''' rdfs:label ?answerLabel.
+        FILTER(LANG(?answerLabel) = "en")
         }'''
 
     def _val(self):
@@ -145,3 +145,4 @@ class ListQuery(SparqlQuery):
 # Is the icecream colored yellow?
 # Is the retarded man instance of human race?
 # Is the icecream yellow?
+
