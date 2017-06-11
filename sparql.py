@@ -1,4 +1,6 @@
-from question import QuestionType 
+from question import QuestionType
+import requests
+import re
 
 class SparqlQuery:
 
@@ -10,6 +12,9 @@ class SparqlQuery:
         """Returns the value from the obtained result.wer"""
         return self.result
 
+    def firequery(query):
+        return requests.get("https://query.wikidata.org/sparql", params={'query': query, 'format': 'json'}).json()
+
     def get(self):
         if (not result):
             self.result = wikidata.fire_query(self.query)
@@ -20,15 +25,21 @@ class ValueQuery(SparqlQuery):
 
     def __init__(self, entity_ID, property_ID):
         self.query = '''
-        SELECT ?property ?propertyLabel WHERE {
-           wd:'''+entity_ID+''' wdt:'''+property_ID+'''  ?property.
+        SELECT ?answer ?answerLabel WHERE {
+           wd:'''+entity_ID+''' wdt:'''+property_ID+'''  ?answer.
            SERVICE wikibase:label {
              bd:serviceParam wikibase:language "en" .
            }
         }'''
 
     def _val(self):
-        pass
+        answer = []
+        for item in data["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    print(item[key]["value"])
+                    answer.append(item[key]["value"])
+        return answer
 
 
 class DescriptionQuery(SparqlQuery):
@@ -48,9 +59,9 @@ class LabelQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
         self.query = '''
-        SELECT ?entityLabel WHERE {
-            wd:'''+entity_ID+''' rdfs:label ?entityLabel.
-        FILTER(LANG(?entityLabel) = "en")
+        SELECT ?answerLabel WHERE {
+            wd:'''+entity_ID+''' rdfs:label ?answerLabel.
+        FILTER(LANG(?answerLabel) = "en")
         }'''
 
     def _val(self):
@@ -134,3 +145,4 @@ class ListQuery(SparqlQuery):
 # Is the icecream colored yellow?
 # Is the retarded man instance of human race?
 # Is the icecream yellow?
+
