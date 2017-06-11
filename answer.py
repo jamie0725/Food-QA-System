@@ -10,10 +10,11 @@ class Answer:
         self.question = question
         self.count = count
 
-        self.obj_entity_IDs = []
-        self.subj_property_IDs = []
-        self.subj_entity_IDs = []
+        self.obj_entity_IDs = [] # IDs of objects in question interpreted as entities
+        self.subj_property_IDs = [] # IDs of subjects in question interpreted as properties
+        self.subj_entity_IDs = [] # etc.
         self.obj_property_IDs = []
+        self.prepared_IDs = False
 
         self.answers = []
 
@@ -24,7 +25,7 @@ class Answer:
         print("\t".join(self.answers))
 
     def _find_answer(self):
-        if not self.entity_IDs or not self.property_IDs:
+        if not self.prepared_IDs:
             self._prepare_IDs()
 
         for question_type in self.question.types:
@@ -44,6 +45,7 @@ class Answer:
         self.subj_property_IDs = base.dedup(self.subj_property_IDs)
         self.subj_entity_IDs = base.dedup(self.subj_entity_IDs)
         self.obj_property_IDs = base.dedup(self.obj_property_IDs)
+        self.prepared_IDs = True
 
         logging.debug("self.obj_entity_IDs = {}".format(self.obj_entity_IDs))
         logging.debug("self.subj_property_IDs = {}".format(self.subj_property_IDs))
@@ -57,14 +59,14 @@ class Answer:
                 query = sparql.ValueQuery(entity_id, property_id)
                 answer = query.get()
                 if answer:
-                    self.answers.extend(answer)
+                    self.answers = answer
                     return
         elif question_type == QuestionType.DESCRIPTION:
             for entity_id in self.subj_entity_IDs self.obj_entity_IDs:
                 query = sparql.DescriptionQuery(entity_id)
                 answer = query.get()
                 if answer:
-                    self.answers.extend(answer)
+                    self.answers = answer
                     return
         else:
             raise NotImplementedError
