@@ -40,9 +40,9 @@ class DescriptionQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
         self.query = '''
-        SELECT ?descriptionLabel WHERE {{
-            wd:{}  schema:description ?descriptionLabel .
-            FILTER(LANG(?descriptionLabel) = "en")
+        SELECT ?answerLabel WHERE {{
+            wd:{}  schema:description ?answerLabel .
+            FILTER(LANG(?answerLabel) = "en")
         }}'''.format(entity_ID)
 
     def _val(self):
@@ -53,9 +53,9 @@ class LabelQuery(SparqlQuery):
 
     def __init__(self, entity_ID):
         self.query = '''
-        SELECT ?entityLabel WHERE {{
-            wd:{} rdfs:label ?entityLabel.
-        FILTER(LANG(?entityLabel) = "en")
+        SELECT ?answerLabel WHERE {{
+            wd:{} rdfs:label ?answerLabel.
+        FILTER(LANG(?answerLabel) = "en")
         }}'''.format(entity_ID)
 
     def _val(self):
@@ -76,11 +76,11 @@ class IDFromURLQuery(SparqlQuery):
 
 class AliasQuery(SparqlQuery):
 
-    def __init__(self, entity_URL):
+    def __init__(self, entity_ID):
         self.query = '''
         SELECT ?alias WHERE {{
             {} skos:altLabel ?aliases .
-        }}'''.format(entity_URL)
+        }}'''.format(entity_ID)
 
     def _val(self):
         pass
@@ -100,11 +100,11 @@ class AskQuery(SparqlQuery):  # is ham a food
 
 class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
 
-    def __init__(self, entity_ID, property_URL, entity_ID2):
+    def __init__(self, entity_ID, property_ID, entity_ID2):
         self.query = """
         ASK {{
             wd:{} wdt:{} wd:{} .
-        }}""".format(entity_ID, property_URL, entity_ID2)
+        }}""".format(entity_ID, property_ID, entity_ID2)
 
     def _val(self):
         pass
@@ -112,7 +112,7 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
 
 class CountQuery(SparqlQuery):  # are there count questions in different ways?
 
-    def __init__(self, entity_ID, property_URL, entity_ID2):
+    def __init__(self, entity_ID, property_ID, entity_ID2):
         self.query = '''
         SELECT (count(distinct ?property) as ?count) WHERE {{
             wd:{} wdt:{}  ?property.
@@ -124,7 +124,7 @@ class CountQuery(SparqlQuery):  # are there count questions in different ways?
 
 class ListQuery(SparqlQuery):
 
-    def __init__(self, entity_ID, property_URL, entity_ID2):
+    def __init__(self, entity_ID, property_ID, entity_ID2):
         self.query = '''
         SELECT ?entity WHERE {{
             ?entity wdt:P279|wdt:P31 entity_ID. ### TODO BUG
