@@ -29,6 +29,7 @@ class ValueQuery(SparqlQuery):
         }}'''.format(entity_ID, property_ID)
 
     def _val(self):
+
         for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
@@ -47,7 +48,12 @@ class DescriptionQuery(SparqlQuery):
         }}'''.format(entity_ID)
 
     def _val(self):
-        pass
+        answer = []
+        for item in self.result["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    answer.append(item[key]["value"])
+        return answer
 
 
 class LabelQuery(SparqlQuery):
@@ -61,7 +67,12 @@ class LabelQuery(SparqlQuery):
         }}'''.format(entity_ID)
 
     def _val(self):
-        pass
+        answer = []
+        for item in self.result["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    answer.append(item[key]["value"])
+        return answer
 
 
 class IDFromURLQuery(SparqlQuery):
@@ -100,7 +111,9 @@ class AskQuery(SparqlQuery):  # is ham a food
         }}""".format(entity_ID, entity_ID2)
 
     def _val(self):
-        pass
+        answer = []
+        answer.append(self.result["boolean"])
+        return answer
 
 
 class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
@@ -113,7 +126,9 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
         }}""".format(entity_ID, property_ID, entity_ID2)
 
     def _val(self):
-        pass
+        answer = []
+        answer.append(self.result["boolean"])
+        return answer
 
 
 class CountQuery(SparqlQuery):  # are there count questions in different ways?
@@ -126,7 +141,12 @@ class CountQuery(SparqlQuery):  # are there count questions in different ways?
         }}'''.format(entity_ID, property_ID)
 
     def _val(self):
-        pass
+        answer = []
+        for item in self.result["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    answer.append(item[key]["value"])
+        return answer
 
 
 class ListQuery(SparqlQuery):
