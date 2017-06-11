@@ -28,6 +28,27 @@ class ValueQuery(SparqlQuery):
              bd:serviceParam wikibase:language "en" .
            }}
         }}'''.format(entity_ID, property_ID)
+        
+        if property_ID == "P279" or property_ID == "P31":
+            self.query = """SELECT ?answer ?answerLabel WHERE {{
+                {{wd:{} wdt:P279|wdt:P31 ?answer.
+                SERVICE wikibase:label {{
+                bd:serviceParam wikibase:language "en" .
+                }}
+                }}UNION{{
+                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?answer.
+                SERVICE wikibase:label {{
+                bd:serviceParam wikibase:language "en" .
+                }}
+                }}UNION{{
+                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?answer.
+                SERVICE wikibase:label {{
+                bd:serviceParam wikibase:language "en" .
+                }}
+                }} }}""".format(entity_ID, entity_ID, entity_ID)
 
     def _val(self):
         val = []
@@ -99,12 +120,17 @@ class AliasQuery(SparqlQuery):
         }}'''.format(entity_ID)
 
     def _val(self):
-        pass
+        answer = []
+        for item in self.result["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    answer.append(item[key]["value"])
+        return answer
 
 
 class AskQuery(SparqlQuery):  # is ham a food
 
-    def __init__(self, entity_ID, ):
+    def __init__(self, entity_ID, entity_ID2):
         super().__init__()
         self.query = """
         ASK {{
@@ -125,6 +151,18 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
         ASK {{
             wd:{} wdt:{} wd:{} .
         }}""".format(entity_ID, property_ID, entity_ID2)
+        
+        if property_ID == "P279" or property_ID == "P31":
+            self.query = """ASK {{
+               {{wd:{} wdt:P279|wdt:P31 wd:{}.
+                }}UNION{{
+                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 wd:{}.
+                }}UNION{{
+                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 wd:{}.
+                }} }}""".format(entity_ID, entity_ID2,entity_ID, entity_ID2,entity_ID, entity_ID2)
 
     def _val(self):
         answer = []
@@ -154,15 +192,31 @@ class ListQuery(SparqlQuery):
 
     def __init__(self, entity_ID, property_ID, entity_ID2):
         super().__init__()
-        self.query = '''
-        SELECT ?entity WHERE {{
-            ?entity wdt:P279|wdt:P31 entity_ID. ### TODO BUG
-        }}'''
+        self.query = """SELECT ?answer ?answerLabel WHERE {{
+                {wd:{} wdt:P279|wdt:P31 ?answer.
+                SERVICE wikibase:label {{
+                bd:serviceParam wikibase:language "en" .
+                }}
+                }UNION{
+                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?answer.
+                SERVICE wikibase:label {{
+                bd:serviceParam wikibase:language "en" .
+                }}
+                }UNION{
+                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 ?answer.
+                SERVICE wikibase:label {{
+                bd:serviceParam wikibase:language "en" .
+                }}
+                }}""".format(entity_ID, entity_ID, entity_ID)
 
     def _val(self):
         pass
 
 # possible improvement check subclass of subclass (example: is ham a kind of meat-> ham is subclass of pork-> pork is a subclass of meat)
+#remove duplicates from entity/answer/property lists
 # list of synonims for properties?
 # search in different laguages?
 # Is the icecream colored yellow?
