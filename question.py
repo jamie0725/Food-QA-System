@@ -1,5 +1,7 @@
 import spacy
 from enum import Enum
+import logging
+import base
 
 QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
@@ -16,16 +18,18 @@ class Question:
         self.objects = []
         self.types = []
 
+        self.determine_question_type()
+        self.determine_components()
+        logging.info("Made Question: {}".format(question))
+        logging.info("Subjects: {}".format(self.subjects))
+        logging.info("Objects: {}".format(self.objects))
+
     def determine_question_type(self):
         self.types = [t for t in QuestionType]
 
     def determine_components(self):
         if QuestionType.VALUE in self.types:
             self.analyze_value_question()
-        if QuestionType.BOOLEAN in self.types:
-            self.analyze_boolean_question()
-        if QuestionType.COUNT in self.types:
-            self.analyze_count_question()
         if QuestionType.DESCRIPTION in self.types:
             self.analyze_description_question()
 
@@ -34,13 +38,11 @@ class Question:
         subject = self.get_subject(occur_list, subject_counter)
         object = self.get_object(occur_list, object_counter)
 
-        # strange method for removing duplicates (but order remains the same)
-        subject = list(OrderedDict((x, True) for x in subject).keys())
-        object = list(OrderedDict((x, True) for x in object).keys())
+        base.dedup(subject)
+        base.dedup(object)
 
-        if self.debug_modus == True:
-            print(occur_list)
-            print('Subject = {}, Object = {}'.format(subject, object))
+        logging.info("occur_list: {}".format(occur_list))
+        logging.info('Subject = {}, Object = {}'.format(subject, object))
 
         try:
             self.object = object
@@ -54,12 +56,10 @@ class Question:
 
         subject = self.get_subject(occur_list, subject_counter)
 
-        # strange method for removing duplicates (but order remains the same)
-        subject = list(OrderedDict((x, True) for x in subject).keys())
+        base.dedup(subject)
 
-        if self.debug_modus == True:
-            print(occur_list)
-            print('Subject = {}'.format(subject))
+        logging.info("occur_list: {}".format(occur_list))
+        logging.info('Subject = {}'.format(subject))
 
         try:
             self.subject = subject  # list, list
@@ -67,7 +67,7 @@ class Question:
             self.subject = []
 
     def basic_analysis(self):
-        processed_question = self.nlp(self.asked_question)
+        processed_question = self.nlp(self.question)
         words = []
         tags = []
         deps = []
@@ -189,13 +189,13 @@ class Question:
                         if match_y[i] in match_x_before[i]:
                             checker_match_before += 1
                             if checker_match_before == len(match_y):
-                                value.append(format_string(
+                                value.append(base.format_string(
                                     ' '.join(words[x:y+length])))
                                 status = True
                         if match_y[i] in match_x_after[i]:
                             checker_match_after += 1
                             if checker_match_after == len(match_y):
-                                value.append(format_string(
+                                value.append(base.format_string(
                                     ' '.join(words[x:y+length])))
                                 status = True
                 x += 1

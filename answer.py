@@ -27,7 +27,7 @@ class Answer:
 
         for question_type in self.question.types:
             self.answer_as(question_type)
-            if answer:
+            if self.answers:
                 return
 
     def _prepare_IDs(self):
@@ -39,8 +39,8 @@ class Answer:
         base.dedup(self.entity_IDs)
         base.dedup(self.property_IDs)
 
-        logging.info("Found entity IDs: ", self.entity_IDs)
-        logging.info("Found property IDs: ", self.property_IDs)
+        logging.info("Found entity IDs: {}".format(self.entity_IDs))
+        logging.info("Found property IDs: {}".format(self.property_IDs))
 
 
     def answer_as(self, question_type):
