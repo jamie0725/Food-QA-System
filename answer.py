@@ -24,15 +24,15 @@ class Answer:
         if (not self.entity_IDs or not self.property_IDs):
             self._prepare_IDs()
 
-        for question_type in question.types:
+        for question_type in self.question.types:
             self.answer_as(question_type)
             if answer:
                 return
 
     def _prepare_IDs(self):
-        for entity_name in question.subjects:
+        for entity_name in self.question.subjects:
             self.entity_IDs.extend(wikidata.get_entity_IDs(entity_name))
-        for property_name in question.objects:
+        for property_name in self.question.objects:
             self.property_IDs.extend(wikidata.get_property_IDs(property_name))
 
         base.dedup(self.entity_IDs)

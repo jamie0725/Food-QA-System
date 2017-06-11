@@ -20,9 +20,9 @@ def format_string(string):
 
     return string
 
-def dedup(list):
+def dedup(itemlist):
     """Removes duplicates from a list"""
-    return list(dict.fromKeys(list))
+    return list(dict.fromkeys(itemlist))
 
 def flatten(list):
     """Make list of lists into list (i.e. [[1,2], [3]] -> [1,2,3])."""

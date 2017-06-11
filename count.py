@@ -4,6 +4,6 @@ class Count:
         self.count = begin
 
     def use(self):
-        old = self._count
+        old = self.count
         self.count += 1
         return old
