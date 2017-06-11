@@ -1,8 +1,12 @@
 import spacy
-from enum import Enum
+from enum import enum
 
 QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
                     'BOOLEAN', 'DESCRIPTION', 'LIST')
+
+# ALL OTHERS: analyze_value_question()  = self.subject, self.object
+# DESCRIPTION: analyze_description_question() #self.subject
+
 
 class Question:
     def __init__(self, question, nlp):
@@ -31,69 +35,37 @@ class Question:
         subject = self.get_subject(occur_list, subject_counter)
         object = self.get_object(occur_list, object_counter)
 
-        subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
+        # strange method for removing duplicates (but order remains the same)
+        subject = list(OrderedDict((x, True) for x in subject).keys())
         object = list(OrderedDict((x, True) for x in object).keys())
-    
+
         if self.debug_modus == True:
             print(occur_list)
             print('Subject = {}, Object = {}'.format(subject, object))
 
         try:
-            return object, subject #list, list
-        except: #if the script couldn't find a subject or object
-            return [], [] #or something else        
-
-    def analyze_boolean_question(self):
-        occur_list, subject_counter, object_counter = self.basic_analysis()
-
-        subject = self.get_subject(occur_list, subject_counter)
-        object = self.get_object(occur_list, object_counter)
-
-        subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-        object = list(OrderedDict((x, True) for x in object).keys())
-    
-        if self.debug_modus == True:
-            print(occur_list)
-            print('Subject = {}, Object = {}'.format(subject, object))  
-       
-        try:
-            return object, subject #list, list
-        except: #if the script couldn't find a subject or object
-            return [], [] #or something else    
-    
-    def analyze_count_question(self):
-        occur_list, subject_counter, object_counter = self.basic_analysis()
-
-        subject = self.get_subject(occur_list, subject_counter)
-        object = self.get_object(occur_list, object_counter)
-
-        subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-        object = list(OrderedDict((x, True) for x in object).keys())
-    
-        if self.debug_modus == True:
-            print(occur_list)
-            print('Subject = {}, Object = {}'.format(subject, object))
-
-        try:
-            return object, subject #list, list
-        except: #if the script couldn't find a subject or object
-            return [], [] #or something else        
+            self.object = object
+            self.subject = subject  # list, list
+        except:  # if the script couldn't find a subject or object
+            self.object = []
+                self.subject = []
 
     def analyze_description_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
 
         subject = self.get_subject(occur_list, subject_counter)
 
-        subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-    
+        # strange method for removing duplicates (but order remains the same)
+        subject = list(OrderedDict((x, True) for x in subject).keys())
+
         if self.debug_modus == True:
             print(occur_list)
             print('Subject = {}'.format(subject))
 
         try:
-            return subject #list, list
-        except: #if the script couldn't find a subject or object
-            return [] #or something else        
+            self.subject = subject  # list, list
+        except:  # if the script couldn't find a subject or object
+            self.subject = []
 
     def basic_analysis(self):
         processed_question = self.nlp(self.asked_question)
@@ -112,57 +84,78 @@ class Question:
                 object_counter += 1
             if w.dep_ in ['nsubj', 'nsubjpass']:
                 subject_counter += 1
-        
-        occur_list = {  'words':    words,
-                'tags':     tags,
-                'deps':     deps,
-                'head_deps':    head_deps}
-        
+
+        occur_list = {'words':      words,
+                      'tags':       tags,
+                      'deps':       deps,
+                      'head_deps':    head_deps }
+
         return occur_list, subject_counter, object_counter
 
     def get_subject(self, occur_list, subject_counter):
         subject = []
         subject_status = False
-        subject, subject_status = self.get_value(occur_list, subject, subject_status, ['nsubj'])
-        subject, subject_status = self.get_value(occur_list, subject, subject_status, ['nsubjpass'])
-        subject, subject_status = self.get_value(occur_list, subject, subject_status, ['attr'])
+        subject, subject_status = self.get_value(
+            occur_list, subject, subject_status, ['nsubj'])
+        subject, subject_status = self.get_value(
+            occur_list, subject, subject_status, ['nsubjpass'])
+        subject, subject_status = self.get_value(
+            occur_list, subject, subject_status, ['attr'])
         if subject_status == False:
-            subject, subject_status = self.get_value(occur_list, subject, subject_status, ['aux'])
-            subject, subject_status = self.get_value(occur_list, subject, subject_status, ['neg'])
-            subject, subject_status = self.get_value(occur_list, subject, subject_status, ['advmod'])
+            subject, subject_status = self.get_value(
+                occur_list, subject, subject_status, ['aux'])
+            subject, subject_status = self.get_value(
+                occur_list, subject, subject_status, ['neg'])
+            subject, subject_status = self.get_value(
+                occur_list, subject, subject_status, ['advmod'])
 
         if subject_status == False:
             if subject_counter == 0:
-                subject, subject_status = self.get_value(occur_list, subject, subject_status, ['pobj'])
-                subject, subject_status = self.get_value(occur_list, subject, subject_status, ['dobj'])
+                subject, subject_status = self.get_value(
+                    occur_list, subject, subject_status, ['pobj'])
+                subject, subject_status = self.get_value(
+                    occur_list, subject, subject_status, ['dobj'])
 
         # if subject_status == False:
-        subject, subject_status = self.get_value(occur_list, subject, subject_status, ['ROOT']) 
+        subject, subject_status = self.get_value(
+            occur_list, subject, subject_status, ['ROOT'])
 
         return subject
 
     def get_object(self, occur_list, object_counter):
         object = []
         object_status = False
-        object, object_status = self.get_value(occur_list, object, object_status, ['pobj'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['dobj'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['pobj||prep'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['poss'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['aposs'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['oprd'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['advmod'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['pobj'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['dobj'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['pobj||prep'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['poss'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['aposs'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['oprd'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['advmod'])
         # if object_status == False:
-        object, object_status = self.get_value(occur_list, object, object_status, ['pcomp'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['acomp'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['acl'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['amod'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['attr'])
-        object, object_status = self.get_value(occur_list, object, object_status, ['compound'])
-        
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['pcomp'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['acomp'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['acl'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['amod'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['attr'])
+        object, object_status = self.get_value(
+            occur_list, object, object_status, ['compound'])
+
         if object_status == False:
-            object, object_status = self.get_value(occur_list, object, object_status, ['nsubj'])
-        
-        
+            object, object_status = self.get_value(
+                occur_list, object, object_status, ['nsubj'])
 
         return object
 
@@ -176,40 +169,48 @@ class Question:
             x = 0
             y = 0
 
-            length = abs(length) #length is for trigram and bigram (length 3 = trigram, length 2 = bigram, 1 = uni)
+            # length is for trigram and bigram (length 3 = trigram, length 2 =
+            # bigram, 1 = uni)
+            length = abs(length)
             match_x_before = [sent_deps]
             match_x_after = [sent_deps]
             for i in range(0, length):
                 if i > 0:
                     match_x_before = [self.preparation_deps()] + match_x_before
                 if i == 1:
-                    match_x_after = match_x_after + [self.conjunction_deps()] + [self.conjuncted_deps()]
-        
+                    match_x_after = match_x_after + \
+                        [self.conjunction_deps()] + [self.conjuncted_deps()]
+
             for w in words:
                 if y+length < len(words) and tags[x] not in self.ignore_tag_list():
                     match_y = deps[x:y+length]
-                    checker_match_before = 0 #checks whether the whole n-gram corresponds
+                    checker_match_before = 0  # checks whether the whole n-gram corresponds
                     checker_match_after = 0
                     for i in range(0, len(match_y)):
                         if match_y[i] in match_x_before[i]:
                             checker_match_before += 1
                             if checker_match_before == len(match_y):
-                                value.append(format_string(' '.join(words[x:y+length])))
+                                value.append(format_string(
+                                    ' '.join(words[x:y+length])))
                                 status = True
                         if match_y[i] in match_x_after[i]:
                             checker_match_after += 1
                             if checker_match_after == len(match_y):
-                                value.append(format_string(' '.join(words[x:y+length])))
+                                value.append(format_string(
+                                    ' '.join(words[x:y+length])))
                                 status = True
                 x += 1
                 y += 1
-        return value, status    
+        return value, status
 
-    def preparation_deps(self): #prep alleen tussen 2 obj en dobj
+    def preparation_deps(self):  # prep alleen tussen 2 obj en dobj
         return ['compound', 'amod', 'poss', 'case', 'punct', 'nsubj', 'neg']
-    def conjunction_deps(self): #prep alleen tussen 2 obj en dobj
+
+    def conjunction_deps(self):  # prep alleen tussen 2 obj en dobj
         return ['prep', 'cc', 'case']
+
     def conjuncted_deps(self):
         return ['pobj', 'conj', 'attr']
+
     def ignore_tag_list(self):
         return ['DT', 'WP', 'WDT']

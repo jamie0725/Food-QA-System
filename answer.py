@@ -49,6 +49,9 @@ class Answer:
             if self.debug_modus == True:
                 print('wikidataAPI - answer = {}'.format(answer))
 
+
     def print(self):
+        if (not self.answer):
+            self.formulate_answer()
         print(self.count, "\t", end='')
         print("\t".join(self.answers))
