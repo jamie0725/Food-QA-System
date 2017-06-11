@@ -1,4 +1,4 @@
-from question import QuestionType
+from question import QuestionType 
 
 class SparqlQuery:
 
