@@ -6,8 +6,8 @@ import base
 QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
 
-# ALL OTHERS: analyze_value_question()  = self.subject, self.object
-# DESCRIPTION: analyze_description_question() #self.subject
+# ALL OTHERS: analyze_value_question()  = self.subjects, self.objects
+# DESCRIPTION: analyze_description_question() #self.subjects
 
 
 class Question:
@@ -35,36 +35,36 @@ class Question:
 
     def analyze_value_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
-        subject = self.get_subject(occur_list, subject_counter)
-        object = self.get_object(occur_list, object_counter)
+        subjects = self.get_subject(occur_list, subject_counter)
+        objects = self.get_object(occur_list, object_counter)
 
-        base.dedup(subject)
-        base.dedup(object)
+        base.dedup(subjects)
+        base.dedup(objects)
 
         logging.info("occur_list: {}".format(occur_list))
-        logging.info('Subject = {}, Object = {}'.format(subject, object))
+        logging.info('subjects = {}, objects = {}'.format(subjects, objects))
 
         try:
-            self.object = object
-            self.subject = subject  # list, list
-        except:  # if the script couldn't find a subject or object
-            self.object = []
-            self.subject = []
+            self.objects = objects
+            self.subjects = subjects  # list, list
+        except:  # if the script couldn't find a subjects or objects
+            self.objects = []
+            self.subjects = []
 
     def analyze_description_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
 
-        subject = self.get_subject(occur_list, subject_counter)
+        subjects = self.get_subject(occur_list, subject_counter)
 
-        base.dedup(subject)
+        base.dedup(subjects)
 
         logging.info("occur_list: {}".format(occur_list))
-        logging.info('Subject = {}'.format(subject))
+        logging.info('subjects = {}'.format(subjects))
 
         try:
-            self.subject = subject  # list, list
-        except:  # if the script couldn't find a subject or object
-            self.subject = []
+            self.subjects = subjects  # list, list
+        except:  # if the script couldn't find a subjects or objects
+            self.subjects = []
 
     def basic_analysis(self):
         processed_question = self.nlp(self.question)
@@ -92,71 +92,71 @@ class Question:
         return occur_list, subject_counter, object_counter
 
     def get_subject(self, occur_list, subject_counter):
-        subject = []
+        subjects = []
         subject_status = False
-        subject, subject_status = self.get_value(
-            occur_list, subject, subject_status, ['nsubj'])
-        subject, subject_status = self.get_value(
-            occur_list, subject, subject_status, ['nsubjpass'])
-        subject, subject_status = self.get_value(
-            occur_list, subject, subject_status, ['attr'])
+        subjects, subject_status = self.get_value(
+            occur_list, subjects, subject_status, ['nsubj'])
+        subjects, subject_status = self.get_value(
+            occur_list, subjects, subject_status, ['nsubjpass'])
+        subjects, subject_status = self.get_value(
+            occur_list, subjects, subject_status, ['attr'])
         if subject_status == False:
-            subject, subject_status = self.get_value(
-                occur_list, subject, subject_status, ['aux'])
-            subject, subject_status = self.get_value(
-                occur_list, subject, subject_status, ['neg'])
-            subject, subject_status = self.get_value(
-                occur_list, subject, subject_status, ['advmod'])
+            subjects, subject_status = self.get_value(
+                occur_list, subjects, subject_status, ['aux'])
+            subjects, subject_status = self.get_value(
+                occur_list, subjects, subject_status, ['neg'])
+            subjects, subject_status = self.get_value(
+                occur_list, subjects, subject_status, ['advmod'])
 
         if subject_status == False:
             if subject_counter == 0:
-                subject, subject_status = self.get_value(
-                    occur_list, subject, subject_status, ['pobj'])
-                subject, subject_status = self.get_value(
-                    occur_list, subject, subject_status, ['dobj'])
+                subjects, subject_status = self.get_value(
+                    occur_list, subjects, subject_status, ['pobj'])
+                subjects, subject_status = self.get_value(
+                    occur_list, subjects, subject_status, ['dobj'])
 
         # if subject_status == False:
-        subject, subject_status = self.get_value(
-            occur_list, subject, subject_status, ['ROOT'])
+        subjects, subject_status = self.get_value(
+            occur_list, subjects, subject_status, ['ROOT'])
 
-        return subject
+        return subjects
 
     def get_object(self, occur_list, object_counter):
-        object = []
+        objects = []
         object_status = False
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['pobj'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['dobj'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['pobj||prep'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['poss'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['aposs'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['oprd'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['advmod'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['pobj'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['dobj'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['pobj||prep'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['poss'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['aposs'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['oprd'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['advmod'])
         # if object_status == False:
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['pcomp'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['acomp'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['acl'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['amod'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['attr'])
-        object, object_status = self.get_value(
-            occur_list, object, object_status, ['compound'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['pcomp'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['acomp'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['acl'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['amod'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['attr'])
+        objects, object_status = self.get_value(
+            occur_list, objects, object_status, ['compound'])
 
         if object_status == False:
-            object, object_status = self.get_value(
-                occur_list, object, object_status, ['nsubj'])
+            objects, object_status = self.get_value(
+                occur_list, objects, object_status, ['nsubj'])
 
-        return object
+        return objects
 
     def get_value(self, occur_list, value, status, sent_deps):
         words = occur_list['words']
