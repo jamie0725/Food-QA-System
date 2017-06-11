@@ -30,10 +30,7 @@ class question:
 			question_types.append('LIST')
 		elif re.match(r'where|who|when|what|which', self.asked_question, re.IGNORECASE):
 			question_types.append('VALUE')
-		if re.match(r'What\sis', self.asked_question):
-			if re.search(r'of', self.asked_question):
-			else 
-				question_types.append('DESCRIPTION')
+
 
 
 		if len(question_types) != 5:
