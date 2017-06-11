@@ -17,108 +17,35 @@ class question:
 		
 		self.nlp = nlp = en_core_web_md.load()		
 		self.debug_modus = debug_modus
-
-		
-		#check regex!
-    
-		#TODO @Vincent's part! work with self.question (the input question) append add at the end of a list
-    #regex (question) ->
-    
-    #VALUE (what is x of y - 1 entity 1 property)
-    #  where
-    #  who
-    #  when 
-    #  what
-    #  which
-    #    does not contain are
-    #DESCRIPTION (wants a desription as answer- 1 entity)
-      
-    #COUNT (expects a number as answer - has entity and property)
-    #  starts with How many
-      
-    #BOOLEAN1 (2 entities)
-    #BOOLEAN2(2 times an entity+ a property) 
-    
-    #  Starts with is
-    #LIST (special case of value (list american presidents) where only 1 entity)
-    #  starts with What are
-      
-    #  still need description
-    #  difference boolean 1,2
-    
-
-#    if(re.search(r'(How\smany)^', question))
-#      question_type.append('COUNT');
-#    if(re.search(r'^(Is|Are)', question))
-#      question_type.append('BOOLEAN');
-#    if(re.match(r'are', question))
-#      question_type.append('LIST');
-#    else if(re.match(r'where|who|when|what|which', question, re.IGNORECASE))
-#      question_type.append('VALUE');
-#    
-#    if(len(question_type) != 5)
-#      if(question_type.count('VALUE') == 0)
-#        question_type.append('VALUE');
-#      if(question_type.count('COUNT') == 0)
-#        question_type.append('COUNT');
-#      if(question_type.count('BOOLEAN') == 0)
-#        question_type.count('BOOLEAN');
-#      if(question_type.count('LIST') == 0)
-#        question_type.append('LIST');
-#      if(question_type.count('DESCRIPTION') == 0)
-#        question_type.count('DESCRIPTION');		
+	
 		
 	def select_question_type(self):
-		#check regex!
-
-		#TODO @Vincent's part! work with self.question (the input question) append add at the end of a list
-		#regex (question) ->
-		#VALUE (what is x of y - 1 entity 1 property)
-		#  where
-		#  who
-		#  when 
-		#  what
-		#  which
-		#    does not contain are
-		#DESCRIPTION (wants a desription as answer- 1 entity)
-
-		#COUNT (expects a number as answer - has entity and property)
-		#  starts with How many
-		#BOOLEAN1 (2 entities)
-		#BOOLEAN2(2 times an entity+ a property) 
-
-		#  Starts with is
-		#LIST (special case of value (list american presidents) where only 1 entity)
-		#  starts with What are
-
-		#  still need description
-		#  difference boolean 1,2
 
 		question_types = []
 		if re.search(r'^(How\smany)', self.asked_question):
-			question_types.append('COUNT');
+			question_types.append('COUNT')
 		if re.search(r'^(Is|Are)', self.asked_question):
-			question_types.append('BOOLEAN');
+			question_types.append('BOOLEAN')
 		if re.match(r'are', self.asked_question):
-			question_types.append('LIST');
+			question_types.append('LIST')
 		elif re.match(r'where|who|when|what|which', self.asked_question, re.IGNORECASE):
-			question_types.append('VALUE');
+			question_types.append('VALUE')
 		if re.match(r'What\sis', self.asked_question):
 			if re.search(r'of', self.asked_question):
-			else question_types.append('DESCRIPTION');
+			else question_types.append('DESCRIPTION')
 
 
 		if len(question_types) != 5:
 			if question_types.count('VALUE') == 0:
-				question_types.append('VALUE');
+				question_types.append('VALUE')
 			if question_types.count('COUNT') == 0:
-				question_types.append('COUNT');
+				question_types.append('COUNT')
 			if question_types.count('BOOLEAN') == 0:
-				question_types.count('BOOLEAN');
+				question_types.count('BOOLEAN')
 			if question_types.count('LIST') == 0:
-				question_types.append('LIST');
+				question_types.append('LIST')
 			if question_types.count('DESCRIPTION') == 0:
-				question_types.count('DESCRIPTION');
+				question_types.count('DESCRIPTION')
 		        
 		if self.debug_modus == True:
 			print('Question_types = {}'.format(question_types))
