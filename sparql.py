@@ -29,7 +29,7 @@ class ValueQuery(SparqlQuery):
 
     def _val(self):
         answer = []
-        for item in data["results"]["bindings"]:
+        for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
                     answer.append(item[key]["value"])
@@ -47,7 +47,7 @@ class DescriptionQuery(SparqlQuery):
 
     def _val(self):
         answer = []
-        for item in data["results"]["bindings"]:
+        for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
                     answer.append(item[key]["value"])
@@ -65,7 +65,7 @@ class LabelQuery(SparqlQuery):
 
     def _val(self):
         answer = []
-        for item in data["results"]["bindings"]:
+        for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
                     answer.append(item[key]["value"])
@@ -106,7 +106,7 @@ class AskQuery(SparqlQuery):  # is ham a food
 
     def _val(self):
         answer = []
-        answer.append(data["boolean"])
+        answer.append(self.result["boolean"])
         return answer
 
 
@@ -120,7 +120,7 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
 
     def _val(self):
         answer = []
-        answer.append(data["boolean"])
+        answer.append(self.result["boolean"])
         return answer
 
 
@@ -134,7 +134,7 @@ class CountQuery(SparqlQuery):  # are there count questions in different ways?
 
     def _val(self):
         answer = []
-        for item in data["results"]["bindings"]:
+        for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
                     answer.append(item[key]["value"])
