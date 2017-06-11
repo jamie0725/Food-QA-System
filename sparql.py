@@ -28,7 +28,12 @@ class ValueQuery(SparqlQuery):
         }}'''.format(entity_ID, property_ID)
 
     def _val(self):
-        pass
+        answer = []
+        for item in data["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    answer.append(item[key]["value"])
+        return answer
 
 
 class DescriptionQuery(SparqlQuery):
