@@ -2,6 +2,7 @@ import sparql
 import wikidata
 import base
 from question import QuestionType
+import logging
 
 class Answer:
 
@@ -37,6 +38,10 @@ class Answer:
 
         base.dedup(self.entity_IDs)
         base.dedup(self.property_IDs)
+
+        logging.info("Found entity IDs: ", self.entity_IDs)
+        logging.info("Found property IDs: ", self.property_IDs)
+
 
     def answer_as(self, question_type):
         if question_type == QuestionType.VALUE:

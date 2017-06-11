@@ -3,8 +3,12 @@ import spacy
 from question import Question
 from count import Count
 from answer import Answer
+import logging
 
 try:
+    # show all logging with level >= DEBUG
+    logging.basicConfig(level=logging.DEBUG)
+
     nlp = spacy.load('en')
     print_count = Count()
 
