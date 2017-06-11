@@ -25,23 +25,7 @@ def createAllQueries(questionTypes, entities, properties):
     # return query
     return queries
 
-def createQuery(questionType, queryInput):
-    #queryInput[0]=entity_ID, queryInput[1]=property_ID, queryInput[2]=entity_ID2
-    if questionType == "VALUE":
-        query = answer(self, queryInput[0], queryInput[1])
-    if questionType == "COUNT":
-        query = answer_count(self, queryInput[0], queryInput[1])
-    if questionType == "DESCRIPTION":
-        query = entity_description(self, queryInput[0])
-    if questionType == "BOOLEAN1":
-        query = ask(self, queryInput[0], queryInput[2])
-    if questionType == "BOOLEAN2":
-        query = ask_specific(
-            self, queryInput[0], queryInput[2], queryInput[1])
-    if questionType == "LIST":
-        query = answer_list(self, queryInput[0])
-
-    return query
+# removed createQuery!
 
 def answer(entity_ID, property_ID):
     query = '''
