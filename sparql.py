@@ -1,4 +1,5 @@
 from question import QuestionType 
+import wikidata
 
 class SparqlQuery:
 
@@ -29,12 +30,12 @@ class ValueQuery(SparqlQuery):
         }}'''.format(entity_ID, property_ID)
 
     def _val(self):
-
+        val = []
         for item in self.result["results"]["bindings"]:
             for key in item:
                 if item[key]["type"] == "literal":
-                    answer.append(item[key]["value"])
-        return answer
+                    val.append(item[key]["value"])
+        return val
 
 
 class DescriptionQuery(SparqlQuery):

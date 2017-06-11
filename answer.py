@@ -49,6 +49,6 @@ class Answer:
                 query = sparql.ValueQuery(entity_id, property_id)
                 answer = query.get()
                 if answer:
-                    self.answers.extend()
+                    self.answers.extend(answer)
         else:
             raise NotImplementedError
