@@ -94,68 +94,35 @@ class question:
 		#  still need description
 		#  difference boolean 1,2
 
+		question_types = []
+		if re.search(r'^(How\smany)', self.asked_question):
+			question_types.append('COUNT');
+		if re.search(r'^(Is|Are)', self.asked_question):
+			question_types.append('BOOLEAN');
+		if re.match(r'are', self.asked_question):
+			question_types.append('LIST');
+		elif re.match(r'where|who|when|what|which', self.asked_question, re.IGNORECASE):
+			question_types.append('VALUE');
 
-		if re.search(r'^(How\smany)', question):
-			question_type.append('COUNT');
-		if re.search(r'^(Is|Are)', question):
-			question_type.append('BOOLEAN');
-		if re.match(r'are', question):
-			question_type.append('LIST');
-		elif re.match(r'where|who|when|what|which', question, re.IGNORECASE):
-			question_type.append('VALUE');
-
-		if len(question_type) != 5:
-			if question_type.count('VALUE') == 0:
-				question_type.append('VALUE');
-			if question_type.count('COUNT') == 0:
-				question_type.append('COUNT');
-			if question_type.count('BOOLEAN') == 0:
-				question_type.count('BOOLEAN');
-			if question_type.count('LIST') == 0:
-				question_type.append('LIST');
-			if question_type.count('DESCRIPTION') == 0:
-				question_type.count('DESCRIPTION');
-        
-		return question_type
-
-		def analyze_value_question(self): #input = question on a line
-		occur_list, subject_counter, object_counter = self.basic_analysis()
-		subject = self.get_subject(occur_list, subject_counter)
-		object = self.get_object(occur_list, object_counter)
-
-		subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-		object = list(OrderedDict((x, True) for x in object).keys())
-	
+		if len(question_types) != 5:
+			if question_types.count('VALUE') == 0:
+				question_types.append('VALUE');
+			if question_types.count('COUNT') == 0:
+				question_types.append('COUNT');
+			if question_types.count('BOOLEAN') == 0:
+				question_types.count('BOOLEAN');
+			if question_types.count('LIST') == 0:
+				question_types.append('LIST');
+			if question_types.count('DESCRIPTION') == 0:
+				question_types.count('DESCRIPTION');
+		        
 		if self.debug_modus == True:
-			print(occur_list)
-			print('Subject = {}, Object = {}'.format(subject, object))
+			print('Question_types = {}'.format(question_types))
 
-		try:
-			return object, subject #list, list
-		except: #if the script couldn't find a subject or object
-			return [], [] #or something else		
+		return question_types
 
-	def analyze_boolean_question(self):
+	def analyze_value_question(self): #input = question on a line
 		occur_list, subject_counter, object_counter = self.basic_analysis()
-
-		subject = self.get_subject(occur_list, subject_counter)
-		object = self.get_object(occur_list, object_counter)
-
-		subject = list(OrderedDict((x, True) for x in subject).keys()) #strange method for removing duplicates (but order remains the same)
-		object = list(OrderedDict((x, True) for x in object).keys())
-	
-		if self.debug_modus == True:
-			print(occur_list)
-			print('Subject = {}, Object = {}'.format(subject, object))  
-       
-		try:
-			return object, subject #list, list
-		except: #if the script couldn't find a subject or object
-			return [], [] #or something else	
-	
-	def analyze_count_question(self):
-		occur_list, subject_counter, object_counter = self.basic_analysis()
-
 		subject = self.get_subject(occur_list, subject_counter)
 		object = self.get_object(occur_list, object_counter)
 

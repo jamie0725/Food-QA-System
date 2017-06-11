@@ -8,18 +8,18 @@ class sparql:
     def __init__(self, debug_modus = False): #input = debug_modus, so we can debug the functions if necessary
         self.debug_modus = debug_modus
 
-    def createAllQueries(self,questionTypes, entities,properties):#work in progress! -> when are we gonna check if we have an answer
-        queries[]
+    def createAllQueries(self, questionTypes, entities, properties):#work in progress! -> when are we gonna check if we have an answer
+        queries = []
         for questionType in questionTypes:#try out all the possible question types
             for entity_ID in entities:
-                if (questionType == "BOOLEAN1"):
+                if questionType == "BOOLEAN1":
                         for entity_ID2 in entities:
                             queries.append(createQuery(self, questionType, [entity_ID, null, entity_ID2]))
-                else if (questionType == "DESCRIPTION"||questionType == "LIST"):
+                elif questionType == "DESCRIPTION" or questionType == "LIST":
                     queries.append(createQuery(self, questionType, [entity_ID]))
                 else:
                     for property_ID in properties:
-                        if (questionType=="BOOLEAN2"):
+                        if questionType=="BOOLEAN2":
                             for entity_ID2 in entities:
                                 queries.append(createQuery(self, questionType,[entity_ID, property_ID, entity_ID2]))
                         else: #questionType==VALUE||COUNT
@@ -89,17 +89,17 @@ class sparql:
         }    '''    
         return query
 
-    def ask(self, entity_URL, entity_URL2)#is ham a food
+    def ask(self, entity_URL, entity_URL2): #is ham a food
         query="""
         ASK {
-            wd:"""entity_URL""" ?property wd:"""entity_URL2""" .
+            wd:"""+entity_URL+""" ?property wd:"""+entity_URL2+""" .
         }"""
         return query
 
-    def ask_specific(self, entity_URL, entity_URL2, property_URL)#is ham a kind of food
+    def ask_specific(self, entity_URL, entity_URL2, property_URL): #is ham a kind of food
         query="""
         ASK {
-            wd:"""entity_URL""" wdt:"""property_URL""" wd:"""entity_URL2""" .
+            wd:"""+entity_URL+""" wdt:"""+property_URL+""" wd:"""+entity_URL2+""" .
         }"""
         return query
 
