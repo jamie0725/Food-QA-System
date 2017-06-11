@@ -1,5 +1,5 @@
 import spacy
-from enum import enum
+from enum import Enum
 
 QuestionType = Enum('QuestionType', 'VALUE', 'COUNT',
                     'BOOLEAN', 'DESCRIPTION', 'LIST')
