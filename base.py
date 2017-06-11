@@ -19,3 +19,11 @@ def format_string(string):
         string = 'subclass of'
 
     return string
+
+def dedup(list):
+    """Removes duplicates from a list"""
+    return list(dict.fromKeys(list))
+
+def flatten(list):
+    """Make list of lists into list (i.e. [[1,2], [3]] -> [1,2,3])."""
+    return sum(list, [])
