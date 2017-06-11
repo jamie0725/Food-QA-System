@@ -20,51 +20,24 @@ class Question:
 
         self.determine_question_type()
         self.determine_components()
+
         logging.info("Made Question: {}".format(question))
-        logging.info("Subjects: {}".format(self.subjects))
-        logging.info("Objects: {}".format(self.objects))
+        logging.info("subjects: {}".format(self.subjects))
+        logging.info("objects: {}".format(self.objects))
 
     def determine_question_type(self):
         self.types = [QuestionType.DESCRIPTION]
 
     def determine_components(self):
-        if QuestionType.VALUE in self.types:
-            self.analyze_value_question()
-        if QuestionType.DESCRIPTION in self.types:
-            self.analyze_description_question()
-
-    def analyze_value_question(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
         subjects = self.get_subject(occur_list, subject_counter)
         objects = self.get_object(occur_list, object_counter)
 
-        base.dedup(subjects)
-        base.dedup(objects)
-
         logging.info("occur_list: {}".format(occur_list))
         logging.info('subjects = {}, objects = {}'.format(subjects, objects))
 
-        try:
-            self.objects = objects
-            self.subjects = subjects  # list, list
-        except:  # if the script couldn't find a subjects or objects
-            self.objects = []
-            self.subjects = []
-
-    def analyze_description_question(self):
-        occur_list, subject_counter, object_counter = self.basic_analysis()
-
-        subjects = self.get_subject(occur_list, subject_counter)
-
-        base.dedup(subjects)
-
-        logging.info("occur_list: {}".format(occur_list))
-        logging.info('subjects = {}'.format(subjects))
-
-        try:
-            self.subjects = subjects  # list, list
-        except:  # if the script couldn't find a subjects or objects
-            self.subjects = []
+        self.objects = base.dedup(objects)
+        self.subjects = base.dedup(subjects)
 
     def basic_analysis(self):
         processed_question = self.nlp(self.question)
