@@ -7,9 +7,10 @@ import logging
 
 try:
     # show all logging with level >= DEBUG
-    logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
     nlp = spacy.load('en_default')
     print_count = Count()
+    print('What are your questions?') #just so we know when NLP is ready (TEMPORARILY HERE)
     for line in sys.stdin:
         question = Question(line, nlp)
         answer = Answer(question, print_count, nlp)

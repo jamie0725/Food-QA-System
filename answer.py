@@ -22,6 +22,7 @@ class Answer:
     def print_it(self):
         if not self.answers:
             self._find_answer()
+		
         print(self.count.use(), "\t", end='')
         print("\t".join(self.answers))
 
