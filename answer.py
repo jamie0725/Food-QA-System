@@ -58,7 +58,6 @@ class Answer:
             self.subj_entity_IDs.extend(new_entity_IDs)
             self.subj_property_IDs.extend(new_property_IDs)
             self.IDsWithWords.update({el: str(subj) for el in new_entity_IDs + new_property_IDs})
-            print(subj)
 
         self.obj_entity_IDs = base.dedup(self.obj_entity_IDs)
         self.subj_property_IDs = base.dedup(self.subj_property_IDs)
@@ -75,11 +74,14 @@ class Answer:
     def id_got_with_same_word(self, first_id, second_id):
         return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
 
+    def got_with_ignored_entity(self, entity_id):
+        return self.IDsWithWords[entity_id] in ['origin']
+
     def get_answer(self, entities_and_properties, queryConstructor):
         for entity_id, property_id in entities_and_properties:
-            # check if both ids are retrieved with the same word, if so
+            # check if both ids are retrieved with the same word or with ignored entity, if so
             # we don't want to check this combination
-            if self.id_got_with_same_word(entity_id, property_id):
+            if self.id_got_with_same_word(entity_id, property_id) or self.got_with_ignored_entity(entity_id):
                 continue
             query = queryConstructor(entity_id, property_id)
             answer = query.get()
