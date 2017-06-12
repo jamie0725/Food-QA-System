@@ -88,11 +88,27 @@ class Answer:
             if answer:
                 self.answers = answer
                 return
+                
+    """def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
+        for entity_id, property_id, entity_id2 in entities_and_properties_and_entities:
+            # check if both ids are retrieved with the same word or with ignored entity, if so
+            # we don't want to check this combination
+            if self.id_got_with_same_word(entity_id, property_id) or self.id_got_with_same_word(entity_id2, property_id) or self.id_got_with_same_word(entity_id2, entity_id) or self.got_with_ignored_entity(entity_id) or  self.got_with_ignored_entity(entity_id2):
+                continue
+            query = queryConstructor(entity_id, property_id, entity_id2)
+            answer = query.get()
+            if answer:
+                self.answers = answer
+                return"""
 
     def answer_as(self, question_type):
         all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
                 itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
                         self.subj_property_IDs, self.obj_property_IDs)))
+        """all_combinations_doubleEntity = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs,self.obj_entity_IDs),
+                itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
+                        self.subj_property_IDs, self.obj_property_IDs,self.obj_entity_IDs + self.subj_entity_IDs)))
+        print(all_combinations_doubleEntity)"""
         if question_type == QuestionType.VALUE:
             self.get_answer(all_combinations, sparql.ValueQuery)
         elif question_type == QuestionType.DESCRIPTION:
