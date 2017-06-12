@@ -22,7 +22,8 @@ def format_string(string):
 
 def dedup(itemlist):
     """Removes duplicates from a list"""
-    return list(dict.fromkeys(itemlist))
+    return list(OrderedDict((x, True) for x in itemlist).keys())
+
 
 def flatten(l):
     """Make list of lists into list (i.e. [[1,2], [3]] -> [1,2,3])."""

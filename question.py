@@ -2,6 +2,7 @@ import spacy
 from enum import Enum
 import logging
 import base
+from collections import OrderedDict
 
 QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
@@ -28,10 +29,8 @@ class Question:
         occur_list, subject_counter, object_counter = self.basic_analysis()
         subjects = self.get_subject(occur_list, subject_counter)
         objects = self.get_object(occur_list, object_counter)
-
         self.objects = base.dedup(objects)
         self.subjects = base.dedup(subjects)
-
         logging.info('determine_components, subjects = {}\nobjects = {}'.format(self.subjects, self.objects))
         words_to_remove = ["be"]
         self.objects = base.remove_elements(self.objects, words_to_remove)
