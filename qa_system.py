@@ -4,10 +4,17 @@ from question import Question
 from count import Count
 from answer import Answer
 import logging
+import argparse
+
+parser = argparse.ArgumentParser(description='This is a demo.')
+parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], help="Set the logging level")
+
+args = parser.parse_args()
+if args.logLevel:
+    logging.basicConfig(level=getattr(logging, args.logLevel))
 
 try:
     # show all logging with level >= DEBUG
-    logging.basicConfig(level=logging.DEBUG)
     nlp = spacy.load('en')
     print_count = Count()
     for line in sys.stdin:
