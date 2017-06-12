@@ -32,4 +32,6 @@ def flatten(l):
 
 def remove_elements(l, elements):
     """Takes two lists, returns the first list with the elements that are in the second list removed"""
-    return [x for x in l if x not in elements]
+
+    new_l = [x for x in l if x not in elements]
+    return new_l
