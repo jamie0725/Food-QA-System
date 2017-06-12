@@ -16,7 +16,7 @@ if args.logLevel:
 
 try:
     # show all logging with level >= DEBUG
-    nlp = spacy.load('en')
+    nlp = spacy.load('en_default')
     anchor_texts = wikipedia.AnchorTexts('anchor_texts')
     print_count = Count()
     for line in sys.stdin:

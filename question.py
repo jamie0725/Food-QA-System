@@ -192,7 +192,7 @@ class Question:
                         [self.conjunction_deps()] + [self.conjuncted_deps()]
 
             for w in words:
-                if y+length < len(words) and tags[x] not in self.ignore_tag_list():
+                if y+length-1 < len(words) and tags[x] not in self.ignore_tag_list():
                     match_y = deps[x:y+length]
                     checker_match_before = 0  # checks whether the whole n-gram corresponds
                     checker_match_after = 0

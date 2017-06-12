@@ -77,7 +77,7 @@ class Answer:
             return False
 
     def got_with_ignored_entity(self, entity_id):
-        return self.IDsWithWords[entity_id] in ['origin']
+        return self.IDsWithWords[entity_id] in ['origin', 'origin of']
 
     def get_answer(self, entities_and_properties, queryConstructor):
         for entity_id, property_id in entities_and_properties:
@@ -150,7 +150,6 @@ class Answer:
             for entity_id in self.subj_entity_IDs + self.obj_entity_IDs:
                 query = sparql.ListQuery(entity_id)
                 answer = query.get()
-                print(answer)
                 if answer:
                     self.answers = answer
                     return
