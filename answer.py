@@ -51,7 +51,14 @@ class Answer:
         for obj in self.question.objects:
             #getExtraEntityIDs(obj)
             wikipages = self.anchor_texts.get_URLs(obj)
+<<<<<<< HEAD
             self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipages))
+=======
+            new_entity_IDs = wikidata.get_entity_IDs_by_URL(wikipages)
+            self.obj_entity_IDs.extend(new_entity_IDs)
+            self.IDsWithWords.update({el: obj for el in new_entity_IDs})
+
+>>>>>>> 7b7af5098abcda1e2ebc67aebad572ded873d655
         for obj in self.question.objects:
             new_entity_IDs = wikidata.get_entity_IDs(obj)
             new_property_IDs = wikidata.get_property_IDs(obj)
@@ -80,10 +87,18 @@ class Answer:
         logging.debug("self.IDsWithWords = {}".format(self.IDsWithWords))
    
     def id_got_with_same_word(self, first_id, second_id):
-        return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
+        try:
+            return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
+        except:
+            logging.error("self.IDsWithWords doesn't contain ID when it whould")
+            return False
 
     def got_with_ignored_entity(self, entity_id):
-        return self.IDsWithWords[entity_id] in ['origin']
+        try:
+            return self.IDsWithWords[entity_id] in ['origin', 'origin of']
+        except:
+            logging.error("self.IDsWithWords doesn't contain ID when it whould")
+            return False
 
     def get_answer(self, entities_and_properties, queryConstructor):
         for entity_id, property_id in entities_and_properties:
