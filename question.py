@@ -47,14 +47,14 @@ class Question:
         if re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
             self.types.append(QuestionType.VALUE)        
 
-        if QuestionType.COUNT not in self.types:
-            self.types.append(QuestionType.COUNT)
-        if QuestionType.VALUE not in self.types:
-            self.types.append(QuestionType.VALUE)
-        if QuestionType.BOOLEAN not in self.types:
-            self.types.append(QuestionType.BOOLEAN)
-        if QuestionType.DESCRIPTION not in self.types:
-            self.types.append(QuestionType.DESCRIPTION)
+        self.types.append(QuestionType.COUNT)
+        self.types.append(QuestionType.VALUE)
+        self.types.append(QuestionType.BOOLEAN)
+        self.types.append(QuestionType.DESCRIPTION)
+        self.types = base.dedup(self.types)
+
+        not_implemented = [QuestionType.LIST, QuestionType.BOOLEAN]
+        self.types = base.remove_elements(self.types, not_implemented)
 
         logging.info("question.types: {}".format(self.types))
         return

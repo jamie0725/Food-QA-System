@@ -71,22 +71,21 @@ class Answer:
         logging.debug("self.subj_entity_IDs = {}".format(self.subj_entity_IDs))
         logging.debug("self.obj_property_IDs = {}".format(self.obj_property_IDs))
         logging.debug("self.IDsWithWords = {}".format(self.IDsWithWords))
-
+    
+    def get_answer(self, entities_and_properties, queryConstructor):
+        for entity_id, property_id in entities_and_properties:
+            query = queryConstructor(entity_id, property_id)
+            answer = query.get()
+            if answer:
+                self.answers = answer
+                return
 
     def answer_as(self, question_type):
+        all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
+                itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
+                        self.subj_property_IDs, self.obj_property_IDs)))
         if question_type == QuestionType.VALUE:
-            for entity_id, property_id in itertools.product(self.obj_entity_IDs, self.subj_property_IDs):
-                query = sparql.ValueQuery(entity_id, property_id)
-                answer = query.get()
-                if answer:
-                    self.answers = answer
-                    return
-            for entity_id, property_id in itertools.product(self.subj_entity_IDs, self.obj_property_IDs):
-                query = sparql.ValueQuery(entity_id, property_id)
-                answer = query.get()
-                if answer:
-                    self.answers = answer
-                    return
+            self.get_answer(all_combinations, sparql.ValueQuery)
         elif question_type == QuestionType.DESCRIPTION:
             for entity_id in itertools.product(self.subj_entity_IDs):
                 query = sparql.DescriptionQuery(entity_id)
@@ -101,17 +100,6 @@ class Answer:
                     self.answers = answer
                     return
         elif question_type == QuestionType.COUNT:
-            for entity_id, property_id in itertools.product(self.obj_entity_IDs, self.subj_property_IDs):
-                query = sparql.CountQuery(entity_id, property_id)
-                answer = query.get()
-                if answer: # if the answer is 0, it's probably also incorrect
-                    self.answes = answer
-                    return
-            for entity_id, property_id in itertools.product(self.subj_entity_IDs, self.obj_property_IDs):
-                query = sparql.CountQuery(entity_id, property_id)
-                answer = query.get()
-                if answer: # if the answer is 0, it's probably also incorrect
-                    self.answes = answer
-                    return
+            self.get_answer(all_combinations, sparql.CountQuery)
         else:
             raise NotImplementedError

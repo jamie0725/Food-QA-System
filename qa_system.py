@@ -8,7 +8,7 @@ import logging
 try:
     # show all logging with level >= DEBUG
     logging.basicConfig(level=logging.DEBUG)
-    nlp = spacy.load('en_default')
+    nlp = spacy.load('en')
     print_count = Count()
     for line in sys.stdin:
         question = Question(line, nlp)
