@@ -70,7 +70,11 @@ class Answer:
         logging.debug("self.IDsWithWords = {}".format(self.IDsWithWords))
    
     def id_got_with_same_word(self, first_id, second_id):
-        return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
+        try:
+            return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
+        except:
+            logging.error("self.IDsWithWords doesn't contain ID when it whould")
+            return False
 
     def got_with_ignored_entity(self, entity_id):
         return self.IDsWithWords[entity_id] in ['origin']
