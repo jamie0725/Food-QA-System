@@ -1,5 +1,5 @@
 import sys
-import spacy
+import en_core_web_md
 from question import Question
 from count import Count
 from answer import Answer
@@ -16,7 +16,7 @@ if args.logLevel:
 
 try:
     # show all logging with level >= DEBUG
-    nlp = spacy.load('en')
+    nlp = en_core_web_md.load()
     anchor_texts = wikipedia.AnchorTexts('anchor_texts')
     print_count = Count()
     for line in sys.stdin:

@@ -53,8 +53,8 @@ class Question:
 
         self.types.append(QuestionType.VALUE)
         self.types.append(QuestionType.COUNT)
-        self.types.append(QuestionType.BOOLEAN)
         self.types.append(QuestionType.DESCRIPTION)
+        self.types.append(QuestionType.BOOLEAN)
         self.types.append(QuestionType.LIST)
         self.types = base.dedup(self.types)
 
