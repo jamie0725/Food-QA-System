@@ -73,7 +73,7 @@ class Answer:
         return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
 
     def got_with_ignored_entity(self, entity_id):
-        return self.IDsWithWords[entity_id] in ['origin']
+        return self.IDsWithWords[entity_id] in ['origin', 'origin of']
 
     def get_answer(self, entities_and_properties, queryConstructor):
         for entity_id, property_id in entities_and_properties:
