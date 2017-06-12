@@ -93,19 +93,18 @@ class Answer:
                 return
                 
     def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
-        print(entities_and_properties_and_entities)
+        #print(entities_and_properties_and_entities)
         for entity_id, property_id, entity_id2 in entities_and_properties_and_entities:
             # check if both ids are retrieved with the same word or with ignored entity, if so
             # we don't want to check this combination
-            print("before if statement")
             if self.id_got_with_same_word(entity_id, property_id) or self.id_got_with_same_word(entity_id2, property_id) or self.id_got_with_same_word(entity_id2, entity_id) or self.got_with_ignored_entity(entity_id) or  self.got_with_ignored_entity(entity_id2):
                 continue
             query = queryConstructor(entity_id, property_id, entity_id2)
-            print(entity_id) 
-            print(property_id) 
-            print(entity_id2)
+            #print(entity_id) 
+            #print(property_id) 
+            #print(entity_id2)
             answer = query.get()
-            print(answer)
+            logging.debug(answer)
             if answer[0]:
                 self.answers = ["Yes."]
                 return
