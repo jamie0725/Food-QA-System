@@ -111,7 +111,7 @@ class Answer:
             #print(entity_id2)
             answer = query.get()
             #print(answer)
-            if answer[0]:
+            if answer and answer[0]:
                 self.answers = ["Yes."]
                 return
         self.answers=["No."]
