@@ -164,7 +164,7 @@ class AskSpecificQuery(SparqlQuery):  # is ham a kind of food
 
 class CountQuery(SparqlQuery):  # are there count questions in different ways?
 
-    def __init__(self, entity_ID, property_ID, entity_ID2):
+    def __init__(self, entity_ID, property_ID):
         super().__init__()
         self.query = '''
         SELECT (count(distinct ?property) as ?count) WHERE {{
