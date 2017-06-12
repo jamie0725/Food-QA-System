@@ -87,13 +87,7 @@ class Answer:
         if question_type == QuestionType.VALUE:
             self.get_answer(all_combinations, sparql.ValueQuery)
         elif question_type == QuestionType.DESCRIPTION:
-            for entity_id in itertools.product(self.subj_entity_IDs):
-                query = sparql.DescriptionQuery(entity_id)
-                answer = query.get()
-                if answer:
-                    self.answers = answer
-                    return
-            for entity_id in itertools.product(self.obj_entity_IDs):
+            for entity_id in self.subj_entity_IDs + self.obj_entity_IDs:
                 query = sparql.DescriptionQuery(entity_id)
                 answer = query.get()
                 if answer:
