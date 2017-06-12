@@ -57,7 +57,7 @@ class Question:
         self.types.append(QuestionType.LIST)
         self.types = base.dedup(self.types)
 
-        not_implemented = [QuestionType.LIST, QuestionType.BOOLEAN]
+        not_implemented = [QuestionType.LIST]
         self.types = base.remove_elements(self.types, not_implemented)
 
         logging.info("question.types: {}".format(self.types))

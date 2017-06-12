@@ -108,20 +108,24 @@ class IDFromURLQuery(SparqlQuery):
         super().__init__()
         self.query = '''
         SELECT ?e WHERE {{
-            {} schema:about ?e .
+            <{}> schema:about ?e .
         }}'''.format(page_URL)
 
     def _val(self):
-        pass
+        answer = []
+        for item in self.result["results"]["bindings"]:
+            for key in item:
+                 answer.append(item["e"]["value"].replace("http://www.wikidata.org/entity/",""))
+        return answer
 
 
 class AliasQuery(SparqlQuery):
 
-    def __init__(self, entity_ID):
+    def __init__(self, entity):
         super().__init__()
         self.query = '''
         SELECT ?alias WHERE {{
-            {} skos:altLabel ?aliases .
+            ?alias skos:altLabel {}@eng .
         }}'''.format(entity_ID)
 
     def _val(self):
@@ -227,3 +231,9 @@ class ListQuery(SparqlQuery):
 # Is the icecream colored yellow?
 # Is the retarded man instance of human race?
 # Is the icecream yellow?
+"""SELECT ?alias WHERE {
+            ?alias wdt:P279|wdt:P31 ?something.
+            ?alias wdt:P646 ?whatever.
+            ?alias skos:altLabel  ?y.
+            FILTER regex(?y, "beef burger")
+        }"""
