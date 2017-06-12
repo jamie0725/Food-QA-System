@@ -1,4 +1,5 @@
 import spacy
+import re
 from enum import Enum
 import logging
 import base
@@ -30,8 +31,34 @@ class Question:
             return x[1].strip('\n')
         else:
             return x[0].strip('\n')
+
     def determine_question_type(self):
-        self.types = [QuestionType.VALUE, QuestionType.DESCRIPTION]
+        self.types = []
+
+        
+        if re.search(r'^(Is|Are|Does)', self.question):
+            self.types.append(QuestionType.BOOLEAN)
+        if re.search(r'how many', self.question, re.IGNORECASE):
+            self.types.append(QuestionType.COUNT)
+        if re.match(r'^What (is|are)', self.question):
+            if not re.match(r'^.*of.*$', self.question):
+                self.types.append(QuestionType.DESCRIPTION)
+        if re.match(r'(^List|Name)|.*are.*$', self.question):
+            self.types.append(QuestionType.LIST)
+        if re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
+            self.types.append(QuestionType.VALUE)        
+
+        if QuestionType.COUNT not in self.types:
+            self.types.append(QuestionType.COUNT)
+        if QuestionType.VALUE not in self.types:
+            self.types.append(QuestionType.VALUE)
+        if QuestionType.BOOLEAN not in self.types:
+            self.types.append(QuestionType.BOOLEAN)
+        if QuestionType.DESCRIPTION not in self.types:
+            self.types.append(QuestionType.DESCRIPTION)
+
+        logging.info("question.types: {}".format(self.types))
+        return
 
     def determine_components(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()

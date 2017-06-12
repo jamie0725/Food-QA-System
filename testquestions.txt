@@ -47,7 +47,7 @@ NR 2 'DESCRIPTION'
 4	What is a zucchini?
 5	What is bread?
 6	What is raw food?
-7	what is a vegetable?
+7	What is a vegetable?
 8	What is meat?
 9	What is cooking?
 
