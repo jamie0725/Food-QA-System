@@ -93,7 +93,6 @@ class Answer:
                 return
                 
     def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
-        print("in boolean answering")
         print(entities_and_properties_and_entities)
         for entity_id, property_id, entity_id2 in entities_and_properties_and_entities:
             # check if both ids are retrieved with the same word or with ignored entity, if so
@@ -115,7 +114,6 @@ class Answer:
         all_combinations_doubleEntity = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs,self.obj_entity_IDs),
                 itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
                         self.subj_property_IDs, self.obj_property_IDs,self.obj_entity_IDs + self.subj_entity_IDs)))
-        print(all_combinations)
         if question_type == QuestionType.VALUE:
             self.get_answer(all_combinations, sparql.ValueQuery)
         elif question_type == QuestionType.DESCRIPTION:
