@@ -123,10 +123,12 @@ class AliasQuery(SparqlQuery):
 
     def __init__(self, entity):
         super().__init__()
-        self.query = '''
-        SELECT ?alias WHERE {{
-            ?alias skos:altLabel {}@eng .
-        }}'''.format(entity_ID)
+        self.query = """SELECT ?alias WHERE {{
+            ?alias wdt:P279|wdt:P31 ?something.
+            ?alias wdt:P646 ?whatever.
+            ?alias skos:altLabel  ?y.
+            FILTER regex(?y, {})
+        }}""".format(entity_ID)
 
     def _val(self):
         answer = []
@@ -231,9 +233,4 @@ class ListQuery(SparqlQuery):
 # Is the icecream colored yellow?
 # Is the retarded man instance of human race?
 # Is the icecream yellow?
-"""SELECT ?alias WHERE {
-            ?alias wdt:P279|wdt:P31 ?something.
-            ?alias wdt:P646 ?whatever.
-            ?alias skos:altLabel  ?y.
-            FILTER regex(?y, "beef burger")
-        }"""
+

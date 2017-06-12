@@ -109,6 +109,12 @@ class Answer:
                 return
         self.answers=["No."]
         return
+        
+    def getExtraEntityIDs(entities):
+        entity_IDs = []
+        for entity in entities:
+            query(sparql.AliasQuery(entity))
+            entity_IDs.extend(query.get())
 
     def answer_as(self, question_type):
         all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
