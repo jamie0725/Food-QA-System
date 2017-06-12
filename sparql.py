@@ -34,26 +34,7 @@ class ValueQuery(SparqlQuery):
            }}
         }}'''.format(entity_ID, property_ID)
         
-        if property_ID == "P279" or property_ID == "P31":
-            self.query = """SELECT ?answer ?answerLabel WHERE {{
-                {{wd:{} wdt:P279|wdt:P31 ?answer.
-                SERVICE wikibase:label {{
-                bd:serviceParam wikibase:language "en" .
-                }}
-                }}UNION{{
-                wd:{} wdt:P279|wdt:P31 ?whatever.
-                ?whatever wdt:P279|wdt:P31 ?answer.
-                SERVICE wikibase:label {{
-                bd:serviceParam wikibase:language "en" .
-                }}
-                }}UNION{{
-                wd:{} wdt:P279|wdt:P31 ?whatever.
-                ?whatever wdt:P279|wdt:P31 ?whatever.
-                ?whatever wdt:P279|wdt:P31 ?answer.
-                SERVICE wikibase:label {{
-                bd:serviceParam wikibase:language "en" .
-                }}
-                }} }}""".format(entity_ID, entity_ID, entity_ID)
+        
 
     def _val(self):
         val = []

@@ -38,16 +38,26 @@ class Answer:
             self.answer_as(question_type)
             if self.answers:
                 return
+    
+    def getExtraEntityIDs(self,entities):
+        entity_IDs = []
+        for entity in entities:
+            query(sparql.AliasQuery(entity))
+            entity_IDs.extend(query.get())
+        print(entity_IDs)
+
 
     def _prepare_IDs(self):
         for obj in self.question.objects:
+            getExtraEntityIDs(obj)
             wikipages = self.anchor_texts.get_URLs(obj)
             self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipages))
-
         for obj in self.question.objects:
             new_entity_IDs = wikidata.get_entity_IDs(obj)
             new_property_IDs = wikidata.get_property_IDs(obj)
             self.obj_entity_IDs.extend(new_entity_IDs)
+            
+            print(self.obj_entity_IDs)
             self.obj_property_IDs.extend(new_property_IDs)
             self.IDsWithWords.update({el: str(obj) for el in new_entity_IDs + new_property_IDs})
         for subj in self.question.subjects:
@@ -105,12 +115,6 @@ class Answer:
         self.answers=["No."]
         return
         
-    def getExtraEntityIDs(entities):
-        entity_IDs = []
-        for entity in entities:
-            query(sparql.AliasQuery(entity))
-            entity_IDs.extend(query.get())
-
     def answer_as(self, question_type):
         all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
                 itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
