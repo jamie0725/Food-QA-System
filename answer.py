@@ -93,7 +93,6 @@ class Answer:
                 return
                 
     def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
-        #print(entities_and_properties_and_entities)
         for entity_id, property_id, entity_id2 in entities_and_properties_and_entities:
             # check if both ids are retrieved with the same word or with ignored entity, if so
             # we don't want to check this combination
@@ -108,6 +107,8 @@ class Answer:
             if answer[0]:
                 self.answers = ["Yes."]
                 return
+        self.answers=["No."]
+        return
 
     def answer_as(self, question_type):
         all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
@@ -127,6 +128,17 @@ class Answer:
         elif question_type == QuestionType.COUNT:
             self.get_answer(all_combinations, sparql.CountQuery)
         elif question_type == QuestionType.BOOLEAN:
-            self.get_answer_boolean(all_combinations_doubleEntity, sparql.AskSpecificQuery)
+            if (self.subj_property_IDs + self.subj_property_IDs+ self.obj_property_IDs):
+                self.get_answer_boolean(all_combinations_doubleEntity, sparql.AskSpecificQuery)
+            else:
+                for entity_id in self.subj_entity_IDs + self.obj_entity_IDs:
+                    for entity_id2 in self.subj_entity_IDs + self.obj_entity_IDs:
+                        query = sparql.AskQuery(entity_id, entity_id2)
+                        answer = query.get()
+                        if answer[0]:
+                            self.answers = ["Yes."]
+                            return
+                    self.answers=["No."]
+                    return
         else:
             raise NotImplementedError
