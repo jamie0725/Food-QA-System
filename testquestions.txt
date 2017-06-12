@@ -1,70 +1,69 @@
 TEST QUESTIONS
 
 NR 1 'VALUE'			
-What is the country of origin of cookies?					
-What are the ingredients of a gin and tonic?
-When was the inception of Dr Pepper?
-Who is the founder of the KFC?
-In what industry is the KFC?
-In which year was Coca Cola created?
-What are the ingredients of Roquefort cheese?
-What product does McDonalds sell?
-Which colors does an apple have?
-Where is the headquarters of Tony's Chocolonely?
-What are the ingredients of Pingado?
-What is the origin of Café con leche?
-What's the country of origin of shawarma?
-What country does Tomato Ketchup come from?
-Where is Theobroma cacao the source of?
-Where is the headquarters located of Kentucky Fried Chicken?
-Who owns Lay's chips?
-Where does pasta come from?
-Which material is used for producing dog food?
-List the main ingredients of bread
-What is the country of origin of apple pie?
-What is the E number of citric acid?
-Who founded McDonalds?
-Name the mass of a baguette
-What color grapes are there?
-Give a list of Indian Food
-How many employees has the Burger King? *** THIS CASE IS STRANGE 
-When is the world food day?
-Where do 'stroopwafels' come from?
-Where do hot dogs come from?
-Which drug is used for treatment against food allergy?
-Where is ceviche originally from?
-What is Rebujito made of?
-What meat is the main ingredient in Ossobuco?
-How many calories are there in a BK Whopper? *** THIS CASE IS STRANGE 
-Where is beer finally assembled?
-How many michelin stars does Osteria Francescana have?
-Who was the presenter of Heel Holland Bakt in 2016?
+1	What is the country of origin of cookies?					
+2	What are the ingredients of a gin and tonic?
+3	When was the inception of Dr Pepper?
+4	Who is the founder of the KFC?
+5	In what industry is the KFC?
+6	In which year was Coca Cola created?
+7	What are the ingredients of Roquefort cheese?
+8	What product does McDonalds sell?
+9	Which colors does an apple have?
+10	Where is the headquarters of Tony's Chocolonely?
+11	What are the ingredients of Pingado?
+12	What is the origin of Café con leche?
+13	What's the country of origin of shawarma?
+14	What country does Tomato Ketchup come from?
+15	Where is Theobroma cacao the source of?
+16	Where is the headquarters located of Kentucky Fried Chicken?
+17	Who owns Lay's chips?
+18	Where does pasta come from?
+19	Which material is used for producing dog food?
+20	List the main ingredients of bread
+21	What is the country of origin of apple pie?
+22	What is the E number of citric acid?
+23	Who founded McDonalds?
+24	Name the mass of a baguette
+25	What color grapes are there?
+26	Who founded McDonald's?
+27	How many employees has the Burger King?
+28	When is the world food day?
+29	Where do 'stroopwafels' come from?
+30	Where do hot dogs come from?
+31	Which drug is used for treatment against food allergy?
+32	Where is ceviche originally from?
+33	What is Rebujito made of?
+34	What meat is the main ingredient in Ossobuco?
+35	How many calories are there in a BK Whopper?
+36	Where is beer finally assembled?
+37	How many michelin stars does Osteria Francescana have?
+38	List the main ingredients of bread
 
 NR 2 'DESCRIPTION'
-What are Cup noodles?
-What is wheat flour?
-What is Naan?
-What is a zucchini?
-What is bread?
-What is raw food?
-what is a vegetable?
-What is meat?
-What is cooking?
+1	What are Cup noodles?
+2	What is wheat flour?
+3	What is Naan?
+4	What is a zucchini?
+5	What is bread?
+6	What is raw food?
+7	What is a vegetable?
+8	What is meat?
+9	What is cooking?
 
 NR 3 'BOOLEAN'
-Does jam contain sugar?
-Is barbecuing considered a cooking technique?
-Is goat milk healthy?
-Does soylent have an official website?
-Does a hamburger contain meat?
-Does water contain sugar?
-Does rice contain protein?
-Does the Japanese dish sushi contain steamed rice?
-Does chocolate contain sugar?
-Is a raisin a dried fruit?
+1	Does jam contain sugar?
+2	Is barbecuing considered a cooking technique?
+3	Is goat milk healthy?
+4	Does soylent have an official website?
+5	Does a hamburger contain meat?
+6	Does water contain sugar?
+7	Does rice contain protein?
+8	Does the Japanese dish sushi contain steamed rice?
+9	Does chocolate contain sugar?
+10	Is a raisin a dried fruit?
 
 NR 4 'COUNT'
-How many ingredients does ratatouille have?
-Of how many classes is rice a subclass?
-How many ingredients does ratatouille have?
-How many episodes does MarsterChef have?
+1	How many ingredients does ratatouille have?
+2	Of how many classes is rice a subclass?
+3	How many episodes does MarsterChef have?

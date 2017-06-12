@@ -8,12 +8,11 @@ import logging
 try:
     # show all logging with level >= DEBUG
     logging.basicConfig(level=logging.DEBUG)
-
-    nlp = spacy.load('en')
+    nlp = spacy.load('en_default')
     print_count = Count()
     for line in sys.stdin:
         question = Question(line, nlp)
         answer = Answer(question, print_count, nlp)
-        answer.print_it()
+        answer.print_it() 
 except KeyboardInterrupt: # ctrl+c won't return an error
     pass

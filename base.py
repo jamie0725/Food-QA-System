@@ -1,4 +1,5 @@
 import re
+from collections import OrderedDict
 
 def format_string(string):
     # to avoid misspelling of f.e. Tony's Chocolonely as Tony 's Chocolonely 
@@ -22,7 +23,8 @@ def format_string(string):
 
 def dedup(itemlist):
     """Removes duplicates from a list"""
-    return list(dict.fromkeys(itemlist))
+    return list(OrderedDict((x, True) for x in itemlist).keys())
+
 
 def flatten(l):
     """Make list of lists into list (i.e. [[1,2], [3]] -> [1,2,3])."""
@@ -30,4 +32,6 @@ def flatten(l):
 
 def remove_elements(l, elements):
     """Takes two lists, returns the first list with the elements that are in the second list removed"""
-    return [x for x in l if x not in elements]
+
+    new_l = [x for x in l if x not in elements]
+    return new_l
