@@ -32,13 +32,12 @@ class Question:
         self.objects = base.dedup(objects)
         self.subjects = base.dedup(subjects)
 
-        logging.info('determine_components, subjects = {}\nobjects = {}'.format(subjects, objects))
+        logging.info('determine_components, subjects = {}\nobjects = {}'.format(self.subjects, self.objects))
         words_to_remove = ["be"]
         self.objects = base.remove_elements(self.objects, words_to_remove)
-        self.subjects = base.remove_elements(self.objects, words_to_remove)
+        self.subjects = base.remove_elements(self.subjects, words_to_remove)
 
-        logging.info("occur_list: {}".format(occur_list))
-        logging.info('determine_components, subjects = {}\nobjects = {}'.format(subjects, objects))
+        logging.info('determine_components, subjects = {}\nobjects = {}'.format(self.subjects, self.objects))
         
 
     def basic_analysis(self):
