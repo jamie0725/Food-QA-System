@@ -4,7 +4,7 @@ from enum import Enum
 import logging
 import base
 
-QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION')
+QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
 class Question:
     def __init__(self, question, nlp):
