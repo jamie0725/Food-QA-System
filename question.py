@@ -39,19 +39,22 @@ class Question:
             self.types.append(QuestionType.BOOLEAN)
         if re.search(r'how many', self.question, re.IGNORECASE):
             self.types.append(QuestionType.COUNT)
+            self.types.append(QuestionType.VALUE)
         # This code is bad: What is KFC's revenue?
-        # if re.match(r'^What (is|are)', self.question):
+        # if re.match(r'^What (is|are|\'s)', self.question):
         #     if not re.match(r'^.*of.*$', self.question):
         #         self.types.append(QuestionType.DESCRIPTION)
-        if re.match(r'(^List|Name)|.*are.*$', self.question):
-            self.types.append(QuestionType.VALUE)
+	#         self.types.append(QuestionType.VALUE)
+        if re.search(r'(Give a list|Name)|.*are.*$', self.question):
+            self.types.append(QuestionType.LIST)
         elif re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
             self.types.append(QuestionType.VALUE)        
 
-        self.types.append(QuestionType.COUNT)
         self.types.append(QuestionType.VALUE)
+        self.types.append(QuestionType.COUNT)
         self.types.append(QuestionType.BOOLEAN)
         self.types.append(QuestionType.DESCRIPTION)
+        self.types.append(QuestionType.LIST)
         self.types = base.dedup(self.types)
 
         not_implemented = [QuestionType.LIST, QuestionType.BOOLEAN]
