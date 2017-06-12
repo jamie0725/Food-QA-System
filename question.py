@@ -39,9 +39,10 @@ class Question:
             self.types.append(QuestionType.BOOLEAN)
         if re.search(r'how many', self.question, re.IGNORECASE):
             self.types.append(QuestionType.COUNT)
-        if re.match(r'^What (is|are)', self.question):
-            if not re.match(r'^.*of.*$', self.question):
-                self.types.append(QuestionType.DESCRIPTION)
+        # This code is bad: What is KFC's revenue?
+        # if re.match(r'^What (is|are)', self.question):
+        #     if not re.match(r'^.*of.*$', self.question):
+        #         self.types.append(QuestionType.DESCRIPTION)
         if re.match(r'(^List|Name)|.*are.*$', self.question):
             self.types.append(QuestionType.VALUE)
         elif re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
