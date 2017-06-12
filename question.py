@@ -29,17 +29,17 @@ class Question:
         subjects = self.get_subject(occur_list, subject_counter)
         objects = self.get_object(occur_list, object_counter)
 
-        logging.info("occur_list: {}".format(occur_list))
-        logging.info('subjects = {}\nobjects = {}'.format(subjects, objects))
-
         self.objects = base.dedup(objects)
         self.subjects = base.dedup(subjects)
 
-        try:
-            self.objects.remove("be")
-            self.subjects.remove("be")
-        except:
-            pass
+        logging.info('determine_components, subjects = {}\nobjects = {}'.format(subjects, objects))
+        words_to_remove = ["be"]
+        self.objects = base.remove_elements(self.objects, words_to_remove)
+        self.subjects = base.remove_elements(self.objects, words_to_remove)
+
+        logging.info("occur_list: {}".format(occur_list))
+        logging.info('determine_components, subjects = {}\nobjects = {}'.format(subjects, objects))
+        
 
     def basic_analysis(self):
         processed_question = self.nlp(self.question)

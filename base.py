@@ -24,6 +24,10 @@ def dedup(itemlist):
     """Removes duplicates from a list"""
     return list(dict.fromkeys(itemlist))
 
-def flatten(list):
+def flatten(l):
     """Make list of lists into list (i.e. [[1,2], [3]] -> [1,2,3])."""
-    return sum(list, [])
+    return sum(l, [])
+
+def remove_elements(l, elements):
+    """Takes two lists, returns the first list with the elements that are in the second list removed"""
+    return [x for x in l if x not in elements]
