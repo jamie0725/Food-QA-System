@@ -204,27 +204,32 @@ class ListQuery(SparqlQuery):
     def __init__(self, entity_ID):
         super().__init__()
         self.query = """SELECT ?answer ?answerLabel WHERE {{
-                {{wd:{} wdt:P279|wdt:P31 ?answer.
+                {{?answer wdt:P279|wdt:P31 wd:{}.
                 SERVICE wikibase:label {{
                 bd:serviceParam wikibase:language "en" .
                 }}
                 }}UNION{{
-                wd:{} wdt:P279|wdt:P31 ?whatever.
-                ?whatever wdt:P279|wdt:P31 ?answer.
+                ?answer wdt:P279|wdt:P31 ?whatever.
+                ?whatever wdt:P279|wdt:P31 wd:{}.
                 SERVICE wikibase:label {{
                 bd:serviceParam wikibase:language "en" .
                 }}
                 }}UNION{{
-                wd:{} wdt:P279|wdt:P31 ?whatever.
+                ?answer wdt:P279|wdt:P31 ?whatever.
                 ?whatever wdt:P279|wdt:P31 ?whatever.
-                ?whatever wdt:P279|wdt:P31 ?answer.
+                ?whatever wdt:P279|wdt:P31 wd:{}.
                 SERVICE wikibase:label {{
                 bd:serviceParam wikibase:language "en" .
                 }}
                 }} }}""".format(entity_ID, entity_ID, entity_ID)
 
     def _val(self):
-        pass
+        answer = []
+        for item in self.result["results"]["bindings"]:
+            for key in item:
+                if item[key]["type"] == "literal":
+                    answer.append(item[key]["value"])
+        return answer
 
 # possible improvement check subclass of subclass (example: is ham a kind of meat-> ham is subclass of pork-> pork is a subclass of meat)
 #remove duplicates from entity/answer/property lists

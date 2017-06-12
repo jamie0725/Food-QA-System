@@ -144,9 +144,9 @@ class Answer:
         elif question_type == QuestionType.LIST:
             
             for entity_id in self.subj_entity_IDs + self.obj_entity_IDs:
-                print(entity_id)
                 query = sparql.ListQuery(entity_id)
                 answer = query.get()
+                print(answer)
                 if answer:
                     self.answers = answer
                     return
