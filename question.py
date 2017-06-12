@@ -45,7 +45,7 @@ class Question:
         #     if not re.match(r'^.*of.*$', self.question):
         #         self.types.append(QuestionType.DESCRIPTION)
 	#         self.types.append(QuestionType.VALUE)
-        if re.search(r'(Give a list|Name|List)|.*are.*$', self.question):
+        if re.search(r'(Give a list|Name)|.*are.*$', self.question):
             self.types.append(QuestionType.LIST)
         elif re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
             self.types.append(QuestionType.VALUE)        
