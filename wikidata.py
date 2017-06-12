@@ -64,7 +64,13 @@ def get_IDs(params):
 
 def get_entity_IDs_by_URL(entity_URLs):
     entity_IDs = []
-    return entity_IDs  # list
+    for url in entity_URLs:
+        query = sparql.IDFromURLQuery(url)
+        entity_ID = query.get()
+        if entity_ID:
+            logging.debug("Found ID {} from URL {}".format(entity_ID, url))
+            entity_IDs.append(entity_ID)
+    return entity_IDs
 
 
 def fire_query(query):

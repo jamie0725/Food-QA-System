@@ -4,12 +4,14 @@ import base
 from question import QuestionType
 import logging
 import itertools
+import wikipedia
 
 class Answer:
 
-    def __init__(self, question, count, nlp):
+    def __init__(self, question, count, nlp, anchor_texts):
         self.question = question
         self.count = count
+        self.anchor_texts = anchor_texts
 
         self.obj_entity_IDs = [] # IDs of objects in question interpreted as entities
         self.subj_property_IDs = [] # IDs of subjects in question interpreted as properties
@@ -27,20 +29,9 @@ class Answer:
         print(self.count.use(), "\t", end='')
         print("\t".join(self.answers))
 
-    def print_it_explicit(self):
-        if not self.answers:
-            self._find_answer()
-		
-        print(self.count.use(), "\t", end='')
-        print(self.question.question, "\t", end='')
-        print("\t".join(self.answers))
-
     def _find_answer(self):
         if not self.prepared_IDs:
             self._prepare_IDs()
-            
-        for question_type in self.question.types:
-            print(question_type)
 
         for question_type in self.question.types:
             logging.debug("question_type = {}".format(question_type))
@@ -49,6 +40,11 @@ class Answer:
                 return
 
     def _prepare_IDs(self):
+        for obj in self.question.objects:
+            wikipages = self.anchor_texts.get_URLs(obj)
+            for wikipage in wikipages:
+                self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipage))
+
         for obj in self.question.objects:
             new_entity_IDs = wikidata.get_entity_IDs(obj)
             new_property_IDs = wikidata.get_property_IDs(obj)
