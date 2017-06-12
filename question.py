@@ -2,7 +2,6 @@ import spacy
 from enum import Enum
 import logging
 import base
-from collections import OrderedDict
 
 QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 

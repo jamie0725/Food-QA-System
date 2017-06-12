@@ -1,4 +1,5 @@
 import re
+from collections import OrderedDict
 
 def format_string(string):
     # to avoid misspelling of f.e. Tony's Chocolonely as Tony 's Chocolonely 
