@@ -108,7 +108,7 @@ class IDFromURLQuery(SparqlQuery):
         super().__init__()
         self.query = '''
         SELECT ?e WHERE {{
-            <{}> schema:about ?e .
+            {} schema:about ?e .
         }}'''.format(page_URL)
 
     def _val(self):

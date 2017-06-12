@@ -42,8 +42,7 @@ class Answer:
     def _prepare_IDs(self):
         for obj in self.question.objects:
             wikipages = self.anchor_texts.get_URLs(obj)
-            for wikipage in wikipages:
-                self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipage))
+            self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipages))
 
         for obj in self.question.objects:
             new_entity_IDs = wikidata.get_entity_IDs(obj)

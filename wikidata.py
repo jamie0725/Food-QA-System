@@ -69,7 +69,7 @@ def get_entity_IDs_by_URL(entity_URLs):
         entity_ID = query.get()
         if entity_ID:
             logging.debug("Found ID {} from URL {}".format(entity_ID, url))
-            entity_IDs.append(entity_ID)
+            entity_IDs.extend(entity_ID)
     return entity_IDs
 
 
