@@ -26,11 +26,20 @@ class Answer:
         print(self.count.use(), "\t", end='')
         print("\t".join(self.answers))
 
+    def print_it_explicit(self):
+        if not self.answers:
+            self._find_answer()
+		
+        print(self.count.use(), "\t", end='')
+        print(self.question.question, "\t", end='')
+        print("\t".join(self.answers))
+
     def _find_answer(self):
         if not self.prepared_IDs:
             self._prepare_IDs()
 
         for question_type in self.question.types:
+            logging.debug("question_type = {}".format(question_type))
             self.answer_as(question_type)
             if self.answers:
                 return
@@ -63,8 +72,20 @@ class Answer:
                 if answer:
                     self.answers = answer
                     return
+            for entity_id, property_id in itertools.product(self.subj_entity_IDs, self.obj_property_IDs):
+                query = sparql.ValueQuery(entity_id, property_id)
+                answer = query.get()
+                if answer:
+                    self.answers = answer
+                    return
         elif question_type == QuestionType.DESCRIPTION:
-            for entity_id in itertools.product(self.subj_entity_IDs, self.obj_entity_IDs):
+            for entity_id in itertools.product(self.subj_entity_IDs):
+                query = sparql.DescriptionQuery(entity_id)
+                answer = query.get()
+                if answer:
+                    self.answers = answer
+                    return
+            for entity_id in itertools.product(self.obj_entity_IDs):
                 query = sparql.DescriptionQuery(entity_id)
                 answer = query.get()
                 if answer:
@@ -72,6 +93,12 @@ class Answer:
                     return
         elif question_type == QuestionType.COUNT:
             for entity_id, property_id in itertools.product(self.obj_entity_IDs, self.subj_property_IDs):
+                query = sparql.CountQuery(entity_id, property_id)
+                answer = query.get()
+                if answer: # if the answer is 0, it's probably also incorrect
+                    self.answes = answer
+                    return
+            for entity_id, property_id in itertools.product(self.subj_entity_IDs, self.obj_property_IDs):
                 query = sparql.CountQuery(entity_id, property_id)
                 answer = query.get()
                 if answer: # if the answer is 0, it's probably also incorrect

@@ -7,6 +7,8 @@ QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
 
 class Question:
     def __init__(self, question, nlp):
+
+        question = self.get_question(question)
         self.question = question
         self.nlp = nlp
         self.subjects = []
@@ -21,17 +23,25 @@ class Question:
         logging.info("subjects: {}".format(self.subjects))
         logging.info("objects: {}".format(self.objects))
 
+    def get_question(self, question):
+        x = question.split('\t')
+		
+        if len(x) > 1: #if there is a tab
+            return x[1].strip('\n')
+        else:
+            return x[0].strip('\n')
     def determine_question_type(self):
         self.types = [QuestionType.VALUE, QuestionType.DESCRIPTION]
 
     def determine_components(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
+        logging.debug("occur_list_spacy = {}".format(occur_list))
         subjects = self.get_subject(occur_list, subject_counter)
         objects = self.get_object(occur_list, object_counter)
         self.objects = base.dedup(objects)
         self.subjects = base.dedup(subjects)
         logging.info('determine_components, subjects = {}\nobjects = {}'.format(self.subjects, self.objects))
-        words_to_remove = ["be"]
+        words_to_remove = ["be", "have", "in"]
         self.objects = base.remove_elements(self.objects, words_to_remove)
         self.subjects = base.remove_elements(self.subjects, words_to_remove)
 
@@ -51,7 +61,7 @@ class Question:
             tags.append(w.tag_)
             deps.append(w.dep_)
             head_deps.append(w.head.dep_)
-            if w.dep_ in ['dobj', 'pobj||prep', 'pobj', 'pcomp', 'acomp']:
+            if w.dep_ in ['dobj', 'pobj||prep', 'pobj']:
                 object_counter += 1
             if w.dep_ in ['nsubj', 'nsubjpass']:
                 subject_counter += 1
@@ -80,12 +90,11 @@ class Question:
             subjects, subject_status = self.get_value(
                 occur_list, subjects, subject_status, ['advmod'])
 
-        if subject_status == False:
-            if subject_counter == 0:
-                subjects, subject_status = self.get_value(
-                    occur_list, subjects, subject_status, ['pobj'])
-                subjects, subject_status = self.get_value(
-                    occur_list, subjects, subject_status, ['dobj'])
+        if subject_counter == 0:
+            subjects, subject_status = self.get_value(
+                occur_list, subjects, subject_status, ['pobj'])
+            subjects, subject_status = self.get_value(
+                occur_list, subjects, subject_status, ['dobj'])
 
         # if subject_status == False:
         subjects, subject_status = self.get_value(
@@ -123,8 +132,8 @@ class Question:
             occur_list, objects, object_status, ['attr'])
         objects, object_status = self.get_value(
             occur_list, objects, object_status, ['compound'])
-
-        if object_status == False:
+        
+        if object_counter == 0:
             objects, object_status = self.get_value(
                 occur_list, objects, object_status, ['nsubj'])
 
