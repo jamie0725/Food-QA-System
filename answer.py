@@ -77,7 +77,11 @@ class Answer:
             return False
 
     def got_with_ignored_entity(self, entity_id):
-        return self.IDsWithWords[entity_id] in ['origin', 'origin of']
+        try:
+            return self.IDsWithWords[entity_id] in ['origin', 'origin of']
+        except:
+            logging.error("self.IDsWithWords doesn't contain ID when it whould")
+            return False
 
     def get_answer(self, entities_and_properties, queryConstructor):
         for entity_id, property_id in entities_and_properties:
