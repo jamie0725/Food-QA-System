@@ -89,7 +89,7 @@ class Answer:
                 self.answers = answer
                 return
                 
-    """def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
+    def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
         for entity_id, property_id, entity_id2 in entities_and_properties_and_entities:
             # check if both ids are retrieved with the same word or with ignored entity, if so
             # we don't want to check this combination
@@ -99,16 +99,15 @@ class Answer:
             answer = query.get()
             if answer:
                 self.answers = answer
-                return"""
+                return
 
     def answer_as(self, question_type):
         all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
                 itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
                         self.subj_property_IDs, self.obj_property_IDs)))
-        """all_combinations_doubleEntity = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs,self.obj_entity_IDs),
+        all_combinations_doubleEntity = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs,self.obj_entity_IDs),
                 itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
                         self.subj_property_IDs, self.obj_property_IDs,self.obj_entity_IDs + self.subj_entity_IDs)))
-        print(all_combinations_doubleEntity)"""
         if question_type == QuestionType.VALUE:
             self.get_answer(all_combinations, sparql.ValueQuery)
         elif question_type == QuestionType.DESCRIPTION:
@@ -120,5 +119,9 @@ class Answer:
                     return
         elif question_type == QuestionType.COUNT:
             self.get_answer(all_combinations, sparql.CountQuery)
+        elif question_type == QuestionType.BOOLEAN:
+            print ("in ask query")
+            self.get_answer(all_combinations_doubleEntity, sparql.AskSpecificQuery)
+            print(self.answer)
         else:
             raise NotImplementedError
