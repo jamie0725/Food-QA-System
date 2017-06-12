@@ -72,7 +72,7 @@ class Answer:
         logging.debug("self.obj_property_IDs = {}".format(self.obj_property_IDs))
         logging.debug("self.IDsWithWords = {}".format(self.IDsWithWords))
    
-    def id_got_with_same_word(first_id, second_id):
+    def id_got_with_same_word(self, first_id, second_id):
         return self.IDsWithWords[first_id] in self.IDsWithWords[second_id] or self.IDsWithWords[second_id] in self.IDsWithWords[first_id]
 
     def get_answer(self, entities_and_properties, queryConstructor):
