@@ -14,7 +14,8 @@ class Answer:
         self.obj_entity_IDs = [] # IDs of objects in question interpreted as entities
         self.subj_property_IDs = [] # IDs of subjects in question interpreted as properties
         self.subj_entity_IDs = [] # etc.
-        self.obj_property_IDs = []
+        self.obj_property_IDs = [] # keeps track of which IDs have been found with which words
+        self.IDsWithWords = {}
         self.prepared_IDs = False
 
         self.answers = []
@@ -36,11 +37,18 @@ class Answer:
 
     def _prepare_IDs(self):
         for obj in self.question.objects:
-            self.obj_entity_IDs.extend(wikidata.get_entity_IDs(obj))
-            self.obj_property_IDs.extend(wikidata.get_property_IDs(obj))
+            new_entity_IDs = wikidata.get_entity_IDs(obj)
+            new_property_IDs = wikidata.get_property_IDs(obj)
+            self.obj_entity_IDs.extend(new_entity_IDs)
+            self.obj_property_IDs.extend(new_property_IDs)
+            self.IDsWithWords.update({el: str(obj) for el in new_entity_IDs + new_property_IDs})
         for subj in self.question.subjects:
-            self.subj_entity_IDs.extend(wikidata.get_entity_IDs(subj))
-            self.subj_property_IDs.extend(wikidata.get_property_IDs(subj))
+            new_entity_IDs = wikidata.get_entity_IDs(subj)
+            new_property_IDs = wikidata.get_property_IDs(subj)
+            self.subj_entity_IDs.extend(new_entity_IDs)
+            self.subj_property_IDs.extend(new_property_IDs)
+            self.IDsWithWords.update({el: str(subj) for el in new_entity_IDs + new_property_IDs})
+            print(subj)
 
         self.obj_entity_IDs = base.dedup(self.obj_entity_IDs)
         self.subj_property_IDs = base.dedup(self.subj_property_IDs)
@@ -52,6 +60,7 @@ class Answer:
         logging.debug("self.subj_property_IDs = {}".format(self.subj_property_IDs))
         logging.debug("self.subj_entity_IDs = {}".format(self.subj_entity_IDs))
         logging.debug("self.obj_property_IDs = {}".format(self.obj_property_IDs))
+        logging.debug("self.IDsWithWords = {}".format(self.IDsWithWords))
 
 
     def answer_as(self, question_type):
