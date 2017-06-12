@@ -146,7 +146,6 @@ class Answer:
             for entity_id in self.subj_entity_IDs + self.obj_entity_IDs:
                 query = sparql.ListQuery(entity_id)
                 answer = query.get()
-                print(answer)
                 if answer:
                     self.answers = answer
                     return
