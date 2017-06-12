@@ -95,10 +95,9 @@ class Answer:
                 continue
             query = queryConstructor(entity_id, property_id)
             answer = query.get()
-            if answer[0]!="0":
-                if answer:
-                    self.answers = answer
-                    return
+            if answer and answer[0] != "0":
+                self.answers = answer
+                return
                 
     def get_answer_boolean(self, entities_and_properties_and_entities, queryConstructor):
         for entity_id, property_id, entity_id2 in entities_and_properties_and_entities:
