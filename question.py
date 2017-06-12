@@ -4,7 +4,7 @@ from enum import Enum
 import logging
 import base
 
-QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION LIST')
+QuestionType = Enum('QuestionType', 'VALUE COUNT BOOLEAN DESCRIPTION')
 
 class Question:
     def __init__(self, question, nlp):
@@ -43,8 +43,8 @@ class Question:
             if not re.match(r'^.*of.*$', self.question):
                 self.types.append(QuestionType.DESCRIPTION)
         if re.match(r'(^List|Name)|.*are.*$', self.question):
-            self.types.append(QuestionType.LIST)
-        if re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
+            self.types.append(QuestionType.VALUE)
+        elif re.match(r'^.*(where|who|when|what|which).*$', self.question, re.IGNORECASE):
             self.types.append(QuestionType.VALUE)        
 
         self.types.append(QuestionType.COUNT)
