@@ -26,7 +26,6 @@ class Question:
 
     def determine_components(self):
         occur_list, subject_counter, object_counter = self.basic_analysis()
-        print(occur_list)
         subjects = self.get_subject(occur_list, subject_counter)
         objects = self.get_object(occur_list, object_counter)
         self.objects = base.dedup(objects)
