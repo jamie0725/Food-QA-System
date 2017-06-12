@@ -35,6 +35,12 @@ class Question:
         self.objects = base.dedup(objects)
         self.subjects = base.dedup(subjects)
 
+        try:
+            self.objects.remove("be")
+            self.subjects.remove("be")
+        except:
+            pass
+
     def basic_analysis(self):
         processed_question = self.nlp(self.question)
         words = []
