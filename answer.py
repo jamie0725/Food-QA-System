@@ -112,9 +112,9 @@ class Answer:
             answer = query.get()
             #print(answer)
             if answer and answer[0]:
-                self.answers = ["Yes."]
+                self.answers = ["yes"]
                 return
-        self.answers=["No."]
+        self.answers=["no"]
         return
         
     def answer_as(self, question_type):
