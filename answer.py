@@ -51,14 +51,10 @@ class Answer:
         for obj in self.question.objects:
             #getExtraEntityIDs(obj)
             wikipages = self.anchor_texts.get_URLs(obj)
-<<<<<<< HEAD
-            self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipages))
-=======
             new_entity_IDs = wikidata.get_entity_IDs_by_URL(wikipages)
             self.obj_entity_IDs.extend(new_entity_IDs)
             self.IDsWithWords.update({el: obj for el in new_entity_IDs})
 
->>>>>>> 7b7af5098abcda1e2ebc67aebad572ded873d655
         for obj in self.question.objects:
             new_entity_IDs = wikidata.get_entity_IDs(obj)
             new_property_IDs = wikidata.get_property_IDs(obj)
