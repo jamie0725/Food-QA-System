@@ -104,7 +104,7 @@ class Answer:
             #print(property_id) 
             #print(entity_id2)
             answer = query.get()
-            logging.debug(answer)
+            #print(answer)
             if answer[0]:
                 self.answers = ["Yes."]
                 return
@@ -112,8 +112,9 @@ class Answer:
     def answer_as(self, question_type):
         all_combinations = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs),
                 itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
-                        self.subj_property_IDs, self.obj_property_IDs)))
-        all_combinations_doubleEntity = base.dedup(itertools.product(self.obj_entity_IDs, self.subj_property_IDs,self.obj_entity_IDs))
+                        self.subj_property_IDs+ self.obj_property_IDs)))
+        all_combinations_doubleEntity = base.dedup(itertools.chain(itertools.product(self.obj_entity_IDs, self.subj_property_IDs,self.obj_entity_IDs),itertools.product(self.obj_entity_IDs + self.subj_entity_IDs,
+                        self.subj_property_IDs+ self.obj_property_IDs,self.obj_entity_IDs + self.subj_entity_IDs)))
         if question_type == QuestionType.VALUE:
             self.get_answer(all_combinations, sparql.ValueQuery)
         elif question_type == QuestionType.DESCRIPTION:
