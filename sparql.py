@@ -27,7 +27,7 @@ class ValueQuery(SparqlQuery):
     def __init__(self, entity_ID, property_ID):
         super().__init__()
         self.query = '''
-        SELECT ?answer ?answerLabel WHERE {{
+        SELECT ?answerLabel WHERE {{
            wd:{} wdt:{} ?answer .
            SERVICE wikibase:label {{
              bd:serviceParam wikibase:language "en" .
