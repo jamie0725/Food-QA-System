@@ -42,9 +42,7 @@ class Answer:
     def _prepare_IDs(self):
         for obj in self.question.objects:
             wikipages = self.anchor_texts.get_URLs(obj)
-            new_entity_IDs = wikidata.get_entity_IDs_by_URL(wikipages)
-            self.obj_entity_IDs.extend(new_entity_IDs)
-            self.IDsWithWords.update({el: obj for el in new_entity_IDs})
+            self.obj_entity_IDs.extend(wikidata.get_entity_IDs_by_URL(wikipages))
 
         for obj in self.question.objects:
             new_entity_IDs = wikidata.get_entity_IDs(obj)
@@ -142,6 +140,15 @@ class Answer:
                             self.answers = ["Yes."]
                             return
                     self.answers=["No."]
+                    return
+        elif question_type == QuestionType.LIST:
+            
+            for entity_id in self.subj_entity_IDs + self.obj_entity_IDs:
+                print(entity_id)
+                query = sparql.ListQuery(entity_id)
+                answer = query.get()
+                if answer:
+                    self.answers = answer
                     return
         else:
             raise NotImplementedError

@@ -201,27 +201,27 @@ class CountQuery(SparqlQuery):  # are there count questions in different ways?
 
 class ListQuery(SparqlQuery):
 
-    def __init__(self, entity_ID, property_ID, entity_ID2):
+    def __init__(self, entity_ID):
         super().__init__()
         self.query = """SELECT ?answer ?answerLabel WHERE {{
-                {wd:{} wdt:P279|wdt:P31 ?answer.
+                {{wd:{} wdt:P279|wdt:P31 ?answer.
                 SERVICE wikibase:label {{
                 bd:serviceParam wikibase:language "en" .
                 }}
-                }UNION{
+                }}UNION{{
                 wd:{} wdt:P279|wdt:P31 ?whatever.
                 ?whatever wdt:P279|wdt:P31 ?answer.
                 SERVICE wikibase:label {{
                 bd:serviceParam wikibase:language "en" .
                 }}
-                }UNION{
+                }}UNION{{
                 wd:{} wdt:P279|wdt:P31 ?whatever.
                 ?whatever wdt:P279|wdt:P31 ?whatever.
                 ?whatever wdt:P279|wdt:P31 ?answer.
                 SERVICE wikibase:label {{
                 bd:serviceParam wikibase:language "en" .
                 }}
-                }}""".format(entity_ID, entity_ID, entity_ID)
+                }} }}""".format(entity_ID, entity_ID, entity_ID)
 
     def _val(self):
         pass
