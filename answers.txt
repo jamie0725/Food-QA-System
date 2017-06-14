@@ -24,7 +24,7 @@
 24 	Point(-73.968055555 40.749444444)
 25 	Category:Tea
 26 	domesticated animal
-27 	Colorado
+27 	red
 28 	grilling       frying       baking
 29	1
 30 	1979-01-01T00:00:00Z	1989-01-01T00:00:00Z
