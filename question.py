@@ -35,7 +35,7 @@ class Question:
     def determine_question_type(self):
         self.types = []
 
-        if re.search(r'^(Is|Are|Does)', self.question):
+        if re.search(r'^(Is|Are|Does|Do)', self.question): # Added do 
             self.types.append(QuestionType.BOOLEAN)
         if re.search(r'how many', self.question, re.IGNORECASE):
             self.types.append(QuestionType.COUNT)
