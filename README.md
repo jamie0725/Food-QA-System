@@ -6,22 +6,39 @@ This was our entry for the final project of the [Language Technology practical](
 
 ## Sample questions
 
-```
-1	Where does pasta come from?
-2	Which material is used for producing dog food?
-3	What is meat?
-4	Is barbecuing considered a cooking technique?
-5	List the main ingredients of bread
-6	What is the country of origin of apple pie?
-7	What is the E number of citric acid?
-8	Who founded McDonald's?
-9	Name the mass of a baguette
-10	Is goat milk healthy?
-11	What color grapes are there?
-12	Give a list of Indian Food
-13	How many ingredients does ratatouille have?
-```
-
+- What is a vegetarian?
+- After what is Coca-Cola named?
+- Which company produces Coca-Cola?
+- What are the ingredients of Coca-Cola?
+- When was ginger ale invented?
+- What are the occupations of Yotam Ottolenghi?
+- What causes milk allergy?
+- Which food allergy is caused by peanuts?
+- What is coffee made of?
+- Which company produces frappucino?
+- Does meat contain muscle?
+- Is Jamie Oliver female?
+- Is an olive an instance of fruit?
+- Does teriyaki originate from China?
+- What is the color of a banana?
+- What do sheep eat?
+- What is the colour of red wine?
+- What is the purpose of an oven?
+- How many ingredients does paella have?
+- When was the inception of Campina?
+- Who is the owner of Campina?
+- What is the shape of a "stroopwafel"?
+- List the ingredients of stroopwafels.
+- Is goat milk produced by male goats?
+- What is goat milk made of?
+- What is goat cheese?
+- Is a tomato a vegetable?
+- Is a banana a vegetable?
+- Where does pizza come from?
+- What is the official name of the potato?
+- Who is Gordon Ramsay?
+- What are the ingredients of sangria?
+- Where was baklava invented?
 
 ## Running the program
 
