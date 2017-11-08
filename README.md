@@ -1,6 +1,6 @@
 # Food QA system
 
-This is a QA system that was designed to answer questions about food (in a broadest sense) that can be found in [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page). In practice, it will be able to answer questions about other domains as well. It was not designed to give a correct answer, not a quick answers.
+This is a QA system that was designed to answer questions about food (in a broadest sense) that can be found in [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page). In practice, it will be able to answer questions about other domains as well. It was designed to give a correct answer, not a quick answers.
 
 This was our entry for the final project of the [Language Technology practical](https://www.rug.nl/ocasys/feb/vak/show?code=KIB.PTT07) course of the University of Groningen. It was able to answer the highest number of questions correctly of all participating teams.
 
